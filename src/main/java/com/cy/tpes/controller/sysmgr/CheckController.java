@@ -53,16 +53,6 @@ public class CheckController
 			String path = request.getServletContext().getRealPath("")+"resources/images/";
 			String time = new SimpleDateFormat("yyyyMMdd").format(d);
 
-			/**
-			 *
-			 * 条形码：
-			 * G : gcid 导检单id
-			 * P : pid 病人id
-			 * I : iid 细项id
-			 * T : 当天时间
-			 *
-			 */
-
 			String msg = "G"+gcid+"I"+iid+"P"+pid+"T"+time;
 			String imgPath = path + msg;
 			System.out.println(imgPath);
