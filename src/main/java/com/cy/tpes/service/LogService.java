@@ -1,6 +1,6 @@
 package com.cy.tpes.service;
 
-import com.cy.tpes.mapper.LogMapper;
+import com.cy.tpes.mapper.HwxLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class LogService
 {
 	@Autowired
-	private LogMapper logMapper;
+	private HwxLogMapper hwxLogMapper;
 
 	@Transactional
-	public int addLog( long wid, String ltype,String lmessage,String lstate){return logMapper.addLog(wid,ltype,lmessage,lstate);};
-
-
+	public int addLog( long wid, String ltype,String lmessage,String lstate){return hwxLogMapper.addLog(wid,ltype,lmessage,lstate);};
 
 }

@@ -15,12 +15,11 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<title>${sessionScope.rname}工作窗口</title>
+	<title>医生工作窗口</title>
 	<link rel="stylesheet" href=<%=path+"resources/layui/css/layui.css"%> >
 	<script src=<%=path+"resources/layui/layui.js"%>></script>
 	<script src=<%=path+"resources/json2.js"%>></script>
 	<script src=<%=path+"resources/jquery/jquery-3.4.1.js"%>></script>
-
-
 
 </head>
 <body class="layui-layout-body">
@@ -28,6 +27,7 @@
 <div class="layui-layout layui-layout-admin">
 	<div class="layui-header">
 		<div class="layui-logo">${sessionScope.rname}工作窗口</div>
+		<div class="layui-logo">医生工作窗口</div>
 		<!-- 头部区域（可配合layui已有的水平导航） -->
 		<ul class="layui-nav layui-layout-left">
 <%--			<li class="layui-nav-item"><a title="<%=path+"/test/to/fileupload.do"%>" onclick="fileUpload(this)">文件上传(form)</a></li>--%>
@@ -59,15 +59,11 @@
 <%--	todo 填入session--%>
 	<li class="layui-nav-item" onclick="editpwd()">修改密码&nbsp&nbsp&nbsp</li>
 	<li class="layui-nav-item">${sessionScope.dname}&nbsp; &nbsp; &nbsp;</li>
-
 <%--   todo填入医生  --%>
 	<li class="layui-nav-item">欢迎你,${sessionScope.wname}${sessionScope.rname}</li>
-
 	<li class="layui-nav-item"><a href="<%=path+"logout"%>">退出</a></li>
 		</ul>
 	</div>
-
-
 	<%--	菜单显示区域--%>
 	<div class="layui-side layui-bg-black">
 		<div class="layui-side-scroll">
@@ -97,8 +93,8 @@
 <%--			//接收项目--%>
 <%--			<iframe style="height: 100%;width: 100%"  title="<%=path%>" src="<%=path+"receitem"%>" frameborder="0" id="myframe" name="myframe"></iframe>--%>
 			<%--			编写总结报告--%>
-			<iframe style="height: 100%;width: 100%"  title="<%=path%>" src="<%=path+"writesum"%>" frameborder="0" id="myframe" name="myframe"></iframe>
-
+			<iframe style="height: 100%;width: 100%"  title="<%=path%>" src="" frameborder="0" id="myframe" name="myframe"></iframe>
+<%--			<iframe style="height: 100%;width: 100%"  title="<%=path%>" src="<%=path+"receitem"%>" frameborder="0" id="myframe" name="myframe"></iframe>--%>
 		</div>
 	</div>
 	<input type="hidden" id="path"  value="<%=path%>">
@@ -108,7 +104,6 @@
 		<%--		<input type="text" name="test" id="test" value="<%=path%>">--%>
 	</div>
 </div>
-
 
 <%--修改密码div--%>
 <div  class="layui-form" style="display: none" id="editpwd" name="editpwd">
@@ -202,20 +197,20 @@
 
 
 <script>
-	function openThis(node){
-		var url = node.title;
-		var frame = document.getElementById("myframe");
-		var path = $('#path').val()+url;
-		frame.src = path;
-		frame.setAttribute("src",path);
-	}
+function openThis(node){
+	var url = node.title;
+	var frame = document.getElementById("myframe");
+	var path = $('#path').val()+url;
+	frame.src = path;
+	frame.setAttribute("src",path);
+}
 
 
-	// JavaScript代码区域
-	layui.use(['element','jquery','form'], function(){
-		var element = layui.element;
-		var $ = layui.jquery;
-	});
+// JavaScript代码区域
+layui.use(['element','jquery','form'], function(){
+	var element = layui.element;
+	var $ = layui.jquery;
+});
 </script>
 
 <script>
@@ -226,27 +221,26 @@
 	}
 </script>
 
-<%--监听按钮  如果按下 跳出修改密码的弹窗--%>
+	<%--监听按钮  如果按下 跳出修改密码的弹窗--%>
 <script>
-function editpwd() {
-	// 跳出弹窗
-	layui.use(['form','layer','jquery','table'], function(){
-		var table = layui.table;
-		var form = layui.form;
-		var $ = layui.jquery;
-		var layer  = layui.layer;
+	function editpwd() {
+		// 跳出弹窗
+		layui.use(['form','layer','jquery','table'], function(){
+			var table = layui.table;
+			var form = layui.form;
+			var $ = layui.jquery;
+			var layer  = layui.layer;
 
-		//打开弹窗，还要写一个监听按钮状态的 如果点击了就去发送ajax,然后要根据请求的结果进行提示是否成功
-		layer.open({
-			title:'修改密码',
-			type: 1,
-			area: ['300px', '300px'],
-			shadeClose: true, //点击遮罩关闭
-			content: $("#editpwd")
+			//打开弹窗，还要写一个监听按钮状态的 如果点击了就去发送ajax,然后要根据请求的结果进行提示是否成功
+			layer.open({
+				title:'修改密码',
+				type: 1,
+				area: ['300px', '300px'],
+				shadeClose: true, //点击遮罩关闭
+				content: $("#editpwd")
+			});
 		});
-	});
-}
+	}
 </script>
-
 </body>
 </html>

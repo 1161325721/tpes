@@ -29,6 +29,7 @@
 		<div class="layui-logo">后台管理员操作窗口</div>
 		<!-- 头部区域（可配合layui已有的水平导航） -->
 		<ul class="layui-nav layui-layout-left">
+<%--						<li class="layui-nav-item"><a title="<%=path+"/sysmgr/page/sysmgr_groupmgr"%>" onclick="fileUpload(this)">文件上传(form)</a></li>--%>
 			<%--			<li class="layui-nav-item"><a title="<%=path+"/test/to/fileupload.do"%>" onclick="fileUpload(this)">文件上传(form)</a></li>--%>
 			<%--			<li class="layui-nav-item"><a title="<%=path+"/test/to/fileupload2.do"%>" onclick="fileUpload(this)">文件上传（ajax）</a></li>--%>
 			<%--			<li class="layui-nav-item"><a href="<%=path+"/test/filedownload.do?filename=DB.db&filetype=db"%>">文件下载(测试)</a></li>--%>
@@ -65,13 +66,13 @@
 		<div class="layui-side-scroll">
 			<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
 			<ul class="layui-nav layui-nav-tree"  lay-filter="test">
-				<c:if test="${requestScope.menuMap!=null}">
-					<c:forEach items="${requestScope.menuMap}" begin="0" var="i">
+				<c:if test="${sessionScope.menuMap!=null}">
+					<c:forEach items="${sessionScope.menuMap}" begin="0" var="i">
 						<li class="layui-nav-item layui-nav-itemed">
 							<a class="" href="javascript:;" >${i.key}</a>
 							<dl class="layui-nav-child">
 								<c:forEach items="${i.value}" begin="0" var="j">
-									<dd><a  title="${j.menuurl}" onclick="openThis(this)">${j.secondmenu}</a></dd>
+									<dd><a  title="${j.mpath}" onclick="openThis(this)">${j.mname}</a></dd>
 								</c:forEach>
 							</dl>
 						</li>

@@ -1,10 +1,9 @@
 package com.cy.tpes.service;
 
 import com.cy.tpes.aop.MyLog;
-import com.cy.tpes.entity.*;
 import com.cy.tpes.entity.hwxbean.*;
 import com.cy.tpes.mapper.HwxDoctorMapper;
-import com.cy.tpes.mapper.LogMapper;
+import com.cy.tpes.mapper.HwxLogMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,7 @@ public class HwxDoctorService
 	@Autowired
 	private HwxDoctorMapper doctorMapper;
 	@Autowired
-	private LogMapper logMapper;
+	private HwxLogMapper hwxLogMapper;
 ////	查询当前科室 当前卡号 所有项目
 //	public List<Object> userProject(String card_num,int did){return doctorMapper.userProject(card_num,did);};
 //	//  查询所点击的项目 的所有细项(上边的语句多加一个项目id 多查一个细项表)

@@ -2,7 +2,7 @@ package com.cy.tpes.service;
 
 import com.cy.tpes.aop.MyLog;
 import com.cy.tpes.entity.hwxbean.Worker;
-import com.cy.tpes.mapper.LogMapper;
+import com.cy.tpes.mapper.HwxLogMapper;
 import com.cy.tpes.mapper.TestDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class TestService
 	@Resource
 	private TestDao testDao;
 	@Autowired
-	private LogMapper logMapper;
+	private HwxLogMapper hwxLogMapper;
 	public List test(){
 		return testDao.test();
 	}

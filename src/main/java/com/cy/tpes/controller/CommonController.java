@@ -55,9 +55,7 @@ public class CommonController
 				request.getSession().setAttribute("dname", worker.getDname());
 				request.getSession().setAttribute("waccount", worker.getWaccount());
 //				test----------
-				long a = 41;
-				Long gcid =a;
-				commonService.addCheckRecord(gcid);
+
 //--------------------------
 //				获取角色的权限
 				long rid = worker.getRid();

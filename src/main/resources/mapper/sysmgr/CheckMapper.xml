@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.cy.tpes.mapper.sysmgr.CheckMapper">
+
+
+	<select id="findGuideCheckByCondition" resultType="map" resultMap="checkMap">
+		select * from guide_check
+		<where>
+			<if test="pcardnumber != null">
+				and pcardnumber  =  #{pcardnumber}
+			</if>
+
+			<if test="gcid != null">
+				and gcid  =  #{gcid}
+			</if>
+		</where>
+	</select>
+
+	<select id="findGuideCheckCountByCondition" resultType="int" parameterType="map">
+		select count(*) from guide_check
+		<where>
+			<if test="pcardnumber != null">
+				and pcardnumber  =  #{pcardnumber}
+			</if>
+		</where>
+	</select>
+
+	<select id="findGuideCheckByCard" parameterType="map" resultMap="checkMap">
+		select * from guide_check where pcardnumber = #{pcardnumber}
+	</select>
+
+	<select id="findGuideCheckByID" parameterType="map" resultType="map">
+		select a.*,b.packname,c.pname,d.iname,d.iid,g.dname,h.pid from guide_check a,package b,project c,item d,project_item_relation e,package_project_relation f,department g,patient h
+		where a.packid = b.packid
+		and b.packid = f.packid
+		and c.proid = f.proid
+		and c.proid = e.proid
+		and d.iid = e.iid
+		and c.did = g.did
+		and a.gcid = 1
+		and a.pcardnumber = h.pcardnumber
+		ORDER BY c.pname
+	</select>
+
+	<insert id="addBarcode" parameterType="map">
+		insert into bar_code
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			${key}
+		</foreach>
+		value
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			#{val}
+		</foreach>
+	</insert>
+
+
+	<select id="findPackById" parameterType="map" resultMap="packMap">
+		select * from package where packid = #{packid}
+	</select>
+
+	<select id="findProjectById" parameterType="map" resultMap="projectMap">
+		select * from project a,package_project_relation b
+		where a.proid = b.proid
+		and b.packid = #{packid}
+	</select>
+
+	<select id="findItemById" parameterType="map" resultType="Item">
+		select * from item a,project_item_relation b where a.iid = b.iid and b.proid = #{proid}
+	</select>
+
+	<select id="findDepartmentById" parameterType="map" resultType="Department">
+		select * from department where did = #{did}
+	</select>
+
+	<select id="findPatientById" parameterType="map" resultType="Patient">
+		select * from patient where pid = #{pid}
+	</select>
+
+	<resultMap id="checkMap" type="GuideCheck">
+		<collection property="packages" column="packid"
+					ofType="Package" select="findPackById">
+
+		</collection>
+		<collection property="patient" column="pcardnumber"
+					ofType="Patient" select="findPatientById">
+
+		</collection>
+	</resultMap>
+
+	<resultMap id="packMap" type="Package">
+		<collection property="projects" column="packid" javaType="list"
+					ofType="Project" select="findProjectById">
+
+		</collection>
+	</resultMap>
+
+	<resultMap id="projectMap" type="Project">
+		<collection property="items" column="proid" javaType="list"
+					ofType="Item" select="findItemById">
+
+		</collection>
+		<collection property="department" column="did"
+					ofType="Department" select="findDepartmentById">
+
+		</collection>
+	</resultMap>
+
+</mapper>
+	
