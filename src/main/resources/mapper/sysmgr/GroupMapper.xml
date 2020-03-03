@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.cy.tpes.mapper.sysmgr.GroupClientMapper">
+
+
+	<select id="findGroupByCondition" resultType="map" parameterType="map">
+		select * from group_client
+		<where>
+			<if test="startdate != null">
+				and gcregisterdate &gt;= #{startdate}
+			</if>
+			<if test="enddate != null">
+				and gcregisterdate &lt;= #{enddate}
+			</if>
+			<if test="gcname != null">
+				and gcname like #{gcname}
+			</if>
+			<if test="gcstate != null">
+				and gcstate = #{gcstate}
+			</if>
+			and gcstate != 3
+		</where>
+	</select>
+
+	<select id="findGroupCountByCondition" resultType="int" parameterType="map">
+		select count(*) from group_client
+		<where>
+			<if test="startdate != null">
+				and gcregisterdate &gt;= #{startdate}
+			</if>
+			<if test="enddate != null">
+				and gcregisterdate &lt;= #{enddate}
+			</if>
+			<if test="gcname != null">
+				and gcname like #{gcname}
+			</if>
+			<if test="gcstate != null">
+				and gcstate = #{gcstate}
+			</if>
+			and gcstate != 3
+		</where>
+	</select>
+
+	<update id="editGroupByCondition" parameterType="map">
+		update group_client set
+		<foreach collection="_parameter" item="val"  index="key" separator=",">
+			${key} = #{val}
+		</foreach>
+		where gcid = #{gcid}
+	</update>
+
+</mapper>
+	

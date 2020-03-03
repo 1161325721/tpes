@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.cy.tpes.mapper.sysmgr.RoleMapper">
+
+
+	<select id="findByCondition" resultType="map" parameterType="map">
+		select * from role
+		<where>
+			<if test="rname != null">
+				and rname  like #{rname}
+			</if>
+		</where>
+	</select>
+
+	<select id="findCountByCondition" resultType="int" parameterType="map">
+		select count(*) from role
+		<where>
+			<if test="rname != null">
+				and rname like #{rname}
+			</if>
+		</where>
+	</select>
+
+	<update id="editByCondition" parameterType="map">
+		update role set
+		<foreach collection="_parameter" item="val"  index="key" separator=",">
+			${key} = #{val}
+		</foreach>
+		where rid = #{rid}
+	</update>
+
+	<insert id="add" parameterType="map">
+		<selectKey keyProperty="proid" resultType="int" order="AFTER">
+			select last_insert_id();
+		</selectKey>
+
+		insert into role
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			${key}
+		</foreach>
+		value
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			#{val}
+		</foreach>
+
+	</insert>
+
+	<delete id="del" parameterType="map">
+		delete from role
+		<where>
+			and rid in
+			<foreach collection="delList" item="val" index="key" open="(" close=")" separator=",">
+				#{val}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="addRoleMenu" parameterType="map">
+<!--		<selectKey keyProperty="proid" resultType="int" order="AFTER">-->
+<!--			select last_insert_id();-->
+<!--		</selectKey>-->
+
+		insert into role_menu_relation(rid,mid)
+
+		<foreach collection="list" item="li" index="index" separator="UNION ALL">
+
+			(select #{rid},#{li} from dual where not exists
+				(
+					select * from role_menu_relation where rid = #{rid} and mid = #{li}
+				))
+		</foreach>
+
+	</insert>
+
+	<delete id="delRoleMenu" parameterType="map">
+		delete from role_menu_relation
+		<where>
+			and rid = #{rid}
+
+			<if test="list!=null and list.size>0">
+				and mid not in
+				<foreach collection="list" item="val" index="key" open="(" close=")" separator=",">
+					#{val}
+				</foreach>
+			</if>
+
+		</where>
+	</delete>
+
+	<select id="findRoleMenu" resultType="map" parameterType="map">
+		select * from role_menu_relation where rid =  #{rid}
+	</select>
+	<select id="findRoleMenuBar" resultType="map" parameterType="map">
+		select a.*,c.mname fname from menu a,role_menu_relation b, menu c
+		WHERE a.mid = b.mid
+		and a.mparentid = c.mid
+		and b.rid =  #{rid}
+	</select>
+</mapper>
+	
