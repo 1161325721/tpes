@@ -35,7 +35,7 @@ public class DoctorController
 	//跳转到项目接收页面
 	@RequestMapping(path = "receitem")
 	public String test(HttpServletRequest request){
-		return "receitem";
+		return "hwx_receitem";
 	}
 
 	//获取病人的信息
@@ -228,6 +228,7 @@ public class DoctorController
 			if (flag==1){
 				//更新导检单的状态
 				doctorService.updateGcstate(gcid, "1");
+
 			}
 
 			str = "true";
