@@ -40,7 +40,7 @@ public class FrontIndexController
 			return true;
 		}
 
-		return null;
+		return false;
 	}
 
 
