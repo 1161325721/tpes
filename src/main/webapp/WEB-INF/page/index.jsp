@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: success
@@ -7,7 +8,6 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
 <html lang="en">
 <%
@@ -17,10 +17,8 @@
 	//	String layuiCssPath = request.getContextPath() +"/layui/css/layui.css";
 	//	String layuiJsPath = request.getContextPath() +"/layui/layui.js";
 %>
-<head>
 	<meta charset="utf-8">
 	<script src=<%=path+"resources/jquery/jquery-3.4.1.js"%>></script>
-	<script src=<%=path+"resources/layui/layui.js"%>></script>
 	<script src=<%=path+"resources/js/login.js"%>></script>
 	<link rel="stylesheet" href=<%=path+"resources/layui/css/layui.css"%> >
 	<style type="text/css">
@@ -84,7 +82,6 @@
 		}
 
 	</style>
-</head>
 <body>
 <form class="layui-form" >
 	<div class="container">
@@ -113,10 +110,7 @@
 				       class="layui-input" height="50px" style="width: 45%; float: left;">
 				<canvas id="canvas" width="150px" height="50px" onclick="drawPic()" style=" width:55% ;float: left;"></canvas>
 			</div>
-
-
 			<!-- <div class="layui-form-mid layui-word-aux">辅助文字</div> -->
-
 		</div>
 		<!-- 			  <div class="layui-form-item">
 							<label class="layui-form-label">记住密码</label>
@@ -134,4 +128,3 @@
 	</div>
 </form>
 </body>l
-</html>
