@@ -66,43 +66,43 @@
 		and b.packid = #{packid}
 	</select>
 
-	<select id="findItemById" parameterType="map" resultType="Item">
+	<select id="findItemById" parameterType="map" resultType="com.cy.tpes.entity.sysmgr.Item">
 		select * from item a,project_item_relation b where a.iid = b.iid and b.proid = #{proid}
 	</select>
 
-	<select id="findDepartmentById" parameterType="map" resultType="Department">
+	<select id="findDepartmentById" parameterType="map" resultType="com.cy.tpes.entity.sysmgr.Department">
 		select * from department where did = #{did}
 	</select>
 
-	<select id="findPatientById" parameterType="map" resultType="Patient">
+	<select id="findPatientById" parameterType="map" resultType="com.cy.tpes.entity.sysmgr.Patient">
 		select * from patient where pid = #{pid}
 	</select>
 
-	<resultMap id="checkMap" type="GuideCheck">
+	<resultMap id="checkMap" type="com.cy.tpes.entity.sysmgr.GuideCheck">
 		<collection property="packages" column="packid"
-					ofType="Package" select="findPackById">
+					ofType="com.cy.tpes.entity.sysmgr.Package" select="findPackById">
 
 		</collection>
 		<collection property="patient" column="pcardnumber"
-					ofType="Patient" select="findPatientById">
+					ofType="com.cy.tpes.entity.sysmgr.Patient" select="findPatientById">
 
 		</collection>
 	</resultMap>
 
-	<resultMap id="packMap" type="Package">
+	<resultMap id="packMap" type="com.cy.tpes.entity.sysmgr.Package">
 		<collection property="projects" column="packid" javaType="list"
-					ofType="Project" select="findProjectById">
+					ofType="com.cy.tpes.entity.sysmgr.Project" select="findProjectById">
 
 		</collection>
 	</resultMap>
 
-	<resultMap id="projectMap" type="Project">
+	<resultMap id="projectMap" type="com.cy.tpes.entity.sysmgr.Project">
 		<collection property="items" column="proid" javaType="list"
-					ofType="Item" select="findItemById">
+					ofType="com.cy.tpes.entity.sysmgr.Item" select="findItemById">
 
 		</collection>
 		<collection property="department" column="did"
-					ofType="Department" select="findDepartmentById">
+					ofType="com.cy.tpes.entity.sysmgr.Department" select="findDepartmentById">
 
 		</collection>
 	</resultMap>

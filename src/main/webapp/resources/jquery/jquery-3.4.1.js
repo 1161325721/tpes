@@ -11,10 +11,7 @@
  *
  * Date: 2019-05-01T21:04Z
  */
-<<<<<<< HEAD
 
-=======
->>>>>>> 16187bc3becf74367327d9306dc8afa5ba58dd47
 ( function( global, factory ) {
 
 	"use strict";

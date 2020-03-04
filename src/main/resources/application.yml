@@ -7,6 +7,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://119.29.224.49:3306/JX1907?characterEncoding=UTF-8&useUnicode=true&useSSL=true&serverTimezone=UTC&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull
+
     username: cykj
     password: cykj
     type: com.alibaba.druid.pool.DruidDataSource
@@ -36,8 +37,8 @@ spring:
       prefix: /WEB-INF/page/
 
 mybatis:
-  mapper-locations: classpath:/mapper/*.xml
-#  type-aliases-package: com.cy.tpes.entity
+  mapper-locations: classpath:/mapper/**/*.xml
+#  type-aliases-package: com.cy.tpes.entity.**
 
 logging:
   level:
