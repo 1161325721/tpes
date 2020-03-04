@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.cy.tpes.mapper.sysmgr.ProjectMapper">
+
+
+	<select id="findByCondition" resultType="map" parameterType="map">
+		select * from project
+		<where>
+			<if test="pname != null">
+				and pname  like #{pname}
+			</if>
+		</where>
+	</select>
+
+	<select id="findCountByCondition" resultType="int" parameterType="map">
+		select count(*) from project
+		<where>
+			<if test="pname != null">
+				and pname like #{pname}
+			</if>
+		</where>
+	</select>
+
+	<update id="editByCondition" parameterType="map">
+		update project set
+		<foreach collection="_parameter" item="val"  index="key" separator=",">
+			${key} = #{val}
+		</foreach>
+		where proid = #{proid}
+	</update>
+
+	<insert id="add" parameterType="map">
+		<selectKey keyProperty="proid" resultType="int" order="AFTER">
+			select last_insert_id();
+		</selectKey>
+
+		insert into project
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			${key}
+		</foreach>
+		value
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			#{val}
+		</foreach>
+
+	</insert>
+
+	<delete id="del" parameterType="map">
+		delete from project
+		<where>
+			and proid in
+			<foreach collection="delList" item="val" index="key" open="(" close=")" separator=",">
+				#{val}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="addProjectItem" parameterType="map">
+<!--		<selectKey keyProperty="proid" resultType="int" order="AFTER">-->
+<!--			select last_insert_id();-->
+<!--		</selectKey>-->
+
+		insert into project_item_relation(proid,iid)
+
+		<foreach collection="list" item="li" index="index" separator="UNION ALL">
+
+			(select #{proid},#{li} from dual where not exists
+				(
+					select * from project_item_relation where proid = #{proid} and iid = #{li}
+				))
+		</foreach>
+
+	</insert>
+
+	<delete id="delProjectItem" parameterType="map">
+		delete from project_item_relation
+		<where>
+			and proid = #{proid}
+
+			<if test="list!=null and list.size>0">
+				and iid not in
+				<foreach collection="list" item="val" index="key" open="(" close=")" separator=",">
+					#{val}
+				</foreach>
+			</if>
+
+		</where>
+	</delete>
+
+	<select id="findProjectItem" resultType="map" parameterType="map">
+		(select * from project_item_relation where proid =  #{proid})
+	</select>
+</mapper>
+	

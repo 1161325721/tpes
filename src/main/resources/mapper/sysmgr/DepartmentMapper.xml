@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.cy.tpes.mapper.sysmgr.DepartMentMapper">
+
+	<select id="findAllDepartment" resultType="map" >
+		select * from department
+	</select>
+
+
+	<select id="findByCondition" resultType="map" parameterType="map">
+		select * from department
+		<where>
+			<if test="dname != null">
+				and dname  like "%"#{dname}"%"
+			</if>
+		</where>
+	</select>
+
+	<select id="findCountByCondition" resultType="int" parameterType="map">
+		select count(*) from department
+		<where>
+			<if test="dname != null">
+				and dname like "%"#{dname}"%"
+			</if>
+		</where>
+	</select>
+
+	<update id="editByCondition" parameterType="map">
+		update department set
+		<foreach collection="_parameter" item="val"  index="key" separator=",">
+			${key} = #{val}
+		</foreach>
+		where did = #{did}
+	</update>
+
+	<insert id="add" parameterType="map">
+		<selectKey keyProperty="proid" resultType="int" order="AFTER">
+			select last_insert_id();
+		</selectKey>
+
+		insert into department
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			${key}
+		</foreach>
+		value
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			#{val}
+		</foreach>
+
+	</insert>
+
+	<delete id="del" parameterType="map">
+		delete from department
+		<where>
+			and did in
+			<foreach collection="delList" item="val" index="key" open="(" close=")" separator=",">
+				#{val}
+			</foreach>
+		</where>
+	</delete>
+
+
+
+</mapper>
+	

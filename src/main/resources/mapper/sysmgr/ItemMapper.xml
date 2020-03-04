@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.cy.tpes.mapper.sysmgr.ItemMapper">
+
+
+	<select id="findItemByCondition" resultType="map" parameterType="map">
+		select * from item
+		<where>
+			<if test="iname != null">
+				and iname  like #{iname}
+			</if>
+		</where>
+	</select>
+
+	<select id="findItemCountByCondition" resultType="int" parameterType="map">
+		select count(*) from item
+		<where>
+			<if test="iname != null">
+				and iname like #{iname}
+			</if>
+		</where>
+	</select>
+
+	<update id="editItemByCondition" parameterType="map">
+		update item set
+		<foreach collection="_parameter" item="val"  index="key" separator=",">
+			${key} = #{val}
+		</foreach>
+		where iid = #{iid}
+	</update>
+
+	<insert id="addItem" parameterType="map">
+		<selectKey keyProperty="iid" resultType="int" order="AFTER">
+			select last_insert_id();
+		</selectKey>
+
+		insert into item
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			${key}
+		</foreach>
+		value
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			#{val}
+		</foreach>
+
+	</insert>
+
+	<insert id="addItemList" parameterType="list">
+		<selectKey keyProperty="iid" resultType="int" order="AFTER">
+			select last_insert_id();
+		</selectKey>
+
+		insert into item
+		( iunit , imin , imax , iname )
+		value
+		<foreach collection="list" item="li" index="index" separator=",">
+			(
+			#{li.iunit},
+			#{li.imin},
+			#{li.imax},
+			#{li.iname}
+			)
+		</foreach>
+	</insert>
+
+<!--	<insert id="addItemList" parameterType="list">-->
+<!--		<selectKey keyProperty="iid" resultType="int" order="AFTER">-->
+<!--			select last_insert_id();-->
+<!--		</selectKey>-->
+
+<!--		<foreach collection="list" item="li" index="index">-->
+<!--			insert into item-->
+
+<!--			<foreach collection="li" item="val" index="key" open="(" close=")" separator=",">-->
+<!--				${key}-->
+<!--			</foreach>-->
+<!--			value-->
+<!--			<foreach collection="li" item="val" index="key" open="(" close=")" separator=",">-->
+<!--				#{val}-->
+<!--			</foreach>-->
+<!--			;-->
+<!--		</foreach>-->
+<!--	</insert>-->
+
+	<delete id="delItem" parameterType="map">
+		delete from item
+		<where>
+			and iid in
+			<foreach collection="delList" item="val" index="key" open="(" close=")" separator=",">
+				#{val}
+			</foreach>
+		</where>
+	</delete>
+
+</mapper>
+	
