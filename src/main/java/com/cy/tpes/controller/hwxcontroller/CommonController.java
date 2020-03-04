@@ -136,6 +136,15 @@ public class CommonController
 	}
 	//修改密码，输入账号，输入密码，输入新密码 旧密码加密验证是否与数据库相同，相同的话 将新密码加密后存到数据库中
 
+	//后台主页
+	@RequestMapping(path = "/back/")
+	public String backindex(HttpServletRequest request){
+		//		request.setAttribute("list",testService.test());
+		//		return "index";
+		//清空session
+		request.getSession().invalidate();
+		return "hwx_backlogin";
+	}
 
 	@RequestMapping(path = "resetpwd")
 	@ResponseBody
