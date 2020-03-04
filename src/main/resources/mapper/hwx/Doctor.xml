@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.cy.tpes.mapper.hwxmapper.HwxDoctorMapper">
+
+
+<!--    <insert id="addSummary" >-->
+<!--    insert  into checkup_project(cpid,crid,proid,cpsummary,wid) values (#{wid},#{ltype},#{lmessage},#{lstate})-->
+<!--	</insert>-->
+
+
+<!--        查看病人信息-->
+    <select id="patientInfo" resultType="com.cy.tpes.entity.hwxbean.Patient" >
+	select * from patient where pcardnumber = #{pcardnumber}
+	</select>
+
+<!--    查询项目list-->
+    <select id="projectList" resultType="com.cy.tpes.entity.hwxbean.ProjectList">
+select e.proid,f.pname,e.cpstate,g.did,h.dname,e.sum_state,c.gostate,e.cpid,e.cpsummary,e.*,g.wname,b.gcid
+from patient a
+left join guide_check  b on a.pcardnumber = b.pcardnumber
+left join group_order c on b.goid = c.goid
+left join checkup_report d on d.gcid = b.gcid
+left join checkup_project e on e.crid = d.crid
+left join project f on f.proid = e.proid
+left join department h on h.did = f.did
+left join worker g on g.did = h.did
+where a.pcardnumber = #{pcardnumber} and g.wid=#{wid} and c.gostate != 0
+limit #{offset}, #{limit}
+;
+</select>
+
+
+<!--    查询病人该项目的所有细项check_item    点击的项目号、-->
+<select id="itemList" resultType="com.cy.tpes.entity.hwxbean.ItemList">
+select e.proid,e.sum_type,e.pic,e.cpsummary,e.cpdate,f.pname,e.cpstate,g.did,h.dname,e.sum_state,c.gostate,i.ciid,i.cicheckvalue,i.cicompareresult,g.wname,j.*
+from patient a
+         left join guide_check  b on a.pcardnumber = b.pcardnumber
+         left join group_order c on b.goid = c.goid
+         left join checkup_report d on d.gcid = b.gcid
+         left join checkup_project e on e.crid = d.crid
+         left join project f on f.proid = e.proid
+         left join worker g on g.did = f.did
+         left join department h on h.did = g.did
+         left join checkup_item i on i.cpid = e.cpid
+         left join item j on i.iid = j.iid
+where a.pcardnumber = #{pcardnumber} and g.wid=#{wid} and e.proid =#{proid}
+        limit #{offset}, #{limit}
+;
+</select>
+
+<!--    <select id="itemList2" resultType="com.cy.tpes.entity.ItemList">-->
+<!--</select>-->
+
+<!--    UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值，update语句的写法：-->
+    <update id="updateCpstate" >
+            update checkup_project set cpstate = '1',wid = #{wid} where cpid = #{cpid} ;
+    </update>
+
+<!--    查找细项-->
+    <select id="findItem" resultType="com.cy.tpes.entity.hwxbean.ItemList">
+        select * from item where iid = #{iid};
+    </select>
+<!--    录入细项信息-->
+    <update id="InputItem" >
+        update checkup_item set wid=#{wid},cidate=#{nowdate},cicheckvalue=#{checkvalue},cicompareresult=#{result} where ciid =#{ciid}
+    </update>
+
+    <select id="getSumState" resultType="com.cy.tpes.entity.hwxbean.CheckupProject">
+        select * from  checkup_project where cpid=#{cpid};
+    </select>
+
+    <update id="updateSummary">
+    update checkup_project set cpsummary=#{text} where cpid =#{cpid};
+    </update>
+
+    <update id="submitSummary">
+    update checkup_project set sum_state='1',cpsummary=#{text} where cpid =#{cpid};
+    </update>
+
+    <select id="getSummary" resultType="com.cy.tpes.entity.hwxbean.CheckupProject">
+    select * from checkup_project where cpid = #{cpid};
+    </select>
+
+<!--    修改图片路径 修改项目的类型 为影像项目-->
+    <update id="addPicAddress">
+        update checkup_project set  sum_type= 'img',pic =#{path} where cpid = #{cpid};
+    </update>
+
+
+    <select id="findGcList" resultType="com.cy.tpes.entity.hwxbean.GcList">
+select a.pname,a.pid, a.pname, a.pgender, a.pcardnumber,a.pidentitynumber,b.*,c.*,d.*
+from patient a
+         left join guide_check  b on a.pcardnumber = b.pcardnumber
+         left join group_order c on b.goid = c.goid
+         left join checkup_report d on d.gcid =b.gcid
+where b.gcid is not null and d.crid is not null and c.gostate !='2'
+limit #{offset}, #{limit}
+;
+</select>
+
+<select id="findAllItem" resultType="com.cy.tpes.entity.hwxbean.ItemList">
+select e.iid,iname,cicheckvalue,cicompareresult,imin,imax,iunit,pic,d.cpid,cpsummary,sum_type,h.*,g.pname 'proname',dname,c.*
+from guide_check a
+left join group_order b on a.goid = b.goid
+left join checkup_report c on a.gcid = c.gcid
+left join checkup_project d on c.crid = d.crid
+left join checkup_item e on d.cpid = e.cpid
+left join item f on e.iid =f.iid
+left join project g on d.proid = g.proid
+left join worker h on d.wid = h.did
+left join department i on i.did = h.did
+where a.gcid is not null and d.cpid is not null and a.gcid = #{gcid}
+order by d.cpid
+limit #{offset}, #{limit}
+;
+</select>
+
+<!--更新体检报告表  crid nousedate  sum suggest lifeguide wid -->
+    <update id="updateCrSum" >
+    update checkup_report set crdate=#{nousedate},crsummary  =#{sum},crsuggest = #{suggest},crlifeguide =#{lifeguide},workid  = #{wid} where crid=#{crid} ;
+    </update>
+
+<!--    更新导检单-->
+    <update id="updateGcstate" >
+     update guide_check set gcstate = #{gcstate} where gcid = #{gcid} ;
+    </update>
+
+</mapper>

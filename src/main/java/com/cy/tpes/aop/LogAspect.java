@@ -3,7 +3,7 @@ package com.cy.tpes.aop;
 import com.alibaba.fastjson.JSON;
 import com.cy.tpes.entity.hwxbean.Log;
 import com.cy.tpes.entity.hwxbean.Worker;
-import com.cy.tpes.service.LogService;
+import com.cy.tpes.service.hwxservice.LogService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;

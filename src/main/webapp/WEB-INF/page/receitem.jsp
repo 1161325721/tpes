@@ -505,11 +505,6 @@
 							var res = JSON.parse(msg);
 							var cpsummary = res.cpsummary;
 							var cpid = res.cpid;
-							// layer.msg("cpsummary" + cpsummary);
-							// layer.msg("cpsummary类型："+typeof (cpsummary));
-							// layer.msg("cpid" + cpid);
-							// layer.msg("cpid类型"+typeof(cpid));
-							//是否为空 如果不是怎么赋值
 							$("#summary").val(cpsummary);
 						},
 						error: function (msg) {

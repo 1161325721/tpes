@@ -4,109 +4,7 @@ var code = "";
 var login_flag = false;
 var reg_flag = false;
 // var path = document.getElementById("path").value;
-// reg
 
-// layui.use(['form','jquery','layer'], function () {
-// 	var form   = layui.form;
-// 	var $      = layui.jquery;
-// 	var layer  = layui.layer;
-// 	// 添加表单失焦事件
-// 	// 验证表单
-//
-// 	$('#reg_user').blur(function() {
-// 		var account = $(this).val();
-// 		$.ajax({
-// 			type:"POST",
-// 			url: "user/doRegName",
-// 			dataType: "text",
-// 			//发送的数据（同时也将数据发送出去）
-// 			data: {account: account},
-// 			success: function (msg) {
-// 				var res = msg.toString();
-//
-// 				if (res == 'true'){
-// 					$('#ri').removeAttr('hidden');
-// 					$('#wr').attr('hidden', 'hidden');
-// 				} else
-// 				{
-// 					$('#wr').removeAttr('hidden');
-// 					$('#ri').attr('hidden', 'hidden');
-// 					layer.msg('当前用户名已被占用! ')
-// 				}
-// 			},
-// 			error: function (msg) {
-// 				alert("服务器正忙。。。。"+msg);
-// 			}
-// 		})
-//
-//
-// 	});
-//
-// 	// 为密码添加正则验证,包括下划线的6~12个字符串
-// 	$('#pwd').blur(function() {
-// 		var reg = /^[\w]{6,12}$/;
-// 		if(!($('#pwd').val().match(reg))){
-// 			//layer.msg('请输入合法密码');
-// 			$('#pwr').removeAttr('hidden');
-// 			$('#pri').attr('hidden','hidden');
-// 			reg_flag = false;
-// 			layer.msg('请输入合法密码');
-// 		}else {
-// 			$('#pri').removeAttr('hidden');
-// 			$('#pwr').attr('hidden','hidden');
-// 			reg_flag = true;
-// 		}
-// 	});
-//
-// 	//验证两次密码是否一致
-// 	$('#rpwd').blur(function() {
-// 		if($('#pwd').val() != $('#rpwd').val()){
-// 			$('#rpwr').removeAttr('hidden');
-// 			$('#rpri').attr('hidden','hidden');
-// 			layer.msg('两次输入密码不一致!');
-// 			reg_flag = false;
-// 		}else {
-// 			$('#rpri').removeAttr('hidden');
-// 			$('#rpwr').attr('hidden','hidden');
-// 			reg_flag = true;
-// 		}
-// 	});
-//
-// 	//判断手机号码的合理性
-// 	$('#reg_phone').blur(function() {
-// 		var phone = $('#reg_phone').val().trim();
-// 		var reg =/^0?1[3|4|5|6|7|8][0-9]\d{8}$/;
-// 		//判断输入是否为整数
-// 		if(phone == null || phone == ""){
-// 			$('#phwr').removeAttr('hidden');
-// 			$('#phri').attr('hidden','hidden');
-// 			layer.msg('不能为空');
-// 			reg_flag = false;
-// 		}else {
-// 			if (reg.test(phone)) {
-// 				$('#phri').removeAttr('hidden');
-// 				$('#phwr').attr('hidden', 'hidden');
-// 				reg_flag = true;
-// 			} else {
-// 				$('#phwr').removeAttr('hidden');
-// 				$('#phri').attr('hidden', 'hidden');
-// 				layer.msg('手机号码不合规则');
-// 				reg_flag = false;
-// 			}
-// 		}
-// 	});
-//
-// 	//验证所有数据都符合要求
-// 	form.on('submit(reg)', function () {
-//
-// 		if (reg_flag){
-// 		} else{
-// 			return false;
-// 		}
-// 	});
-//
-//
-// });
 
 // login
 layui.use(['form','layer','jquery'], function () {
@@ -119,19 +17,19 @@ layui.use(['form','layer','jquery'], function () {
 	// 页面出现的时候就加载
 	$(drawPic());
 	//验证码验证
-	// $('#login_code').blur(function() {
-	//
-	// 	if($('#login_code').val() == code){
-	//
-	// 		layer.msg('验证通过');
-	// 		login_flag = true;
-	//
-	// 	}else {
-	// 		layer.msg('验证码错误');
-	// 		login_flag = false;
-	// 		drawPic();
-	// 	}
-	// });
+	$('#login_code').blur(function() {
+
+		if($('#login_code').val() == code){
+
+			layer.msg('验证通过');
+			login_flag = true;
+
+		}else {
+			layer.msg('验证码错误');
+			login_flag = false;
+			drawPic();
+		}
+	});
 
 	form.on('submit(login)', function () {
 		//填写验证码
@@ -142,8 +40,7 @@ layui.use(['form','layer','jquery'], function () {
 		// layer.msg(useraccount);
 		// layer.msg(password);
 
-
-		if (true){
+		if (login_flag==true){
 			var useraccount = $('#login_account').val();
 			var password = $('#login_password').val();
 			// layer.msg(useraccount);
@@ -168,22 +65,7 @@ layui.use(['form','layer','jquery'], function () {
 					}else {
 						window.location.href="/tpes/doctor"
 					}
-					// 	layer.msg('登录成功');
-					// 	//todo 查看用户权限跳转到不同的界面去
-					// 	window.location.href="/tpes/doctor";
-					// }
-					// if(res == 'nopass'){
-					// 	layer.msg('登录失败');
-					// }
-					// if(res == 'noname'){
-					// 	layer.msg('用户名错误');
-					// }
-					// if(res == 'nostate'){
-					// 	layer.msg('账户被禁用,请联系管理员');
-					// }
-					// if(res == 'del'){
-					// 	layer.msg('账户被删除，请重新注册');
-					// }
+
 				},
 				error: function (msg) {
 					alert("服务器正忙。。。。"+msg);
@@ -191,6 +73,7 @@ layui.use(['form','layer','jquery'], function () {
 			});
 			return false;
 		} else{
+			layer.msg("验证码输入错误");
 			return false;
 		}
 	});
