@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form name="punchout_form" method="post" action="https://openapi.alipaydev.com/gateway.do?charset=utf-8&method=alipay.trade.page.pay&sign=hzEKUSFcyBolHDwox3PWhmm9i7hhJW1Q7ZsEEVh9dPnwdO3q%2B4s%2FbrtGu2qtGPTJTsxsSzeaMS6NVx24RYLCo5q4O6VrhlyGGfKyrBl%2BOGpOTVJ6%2FQ8iH7UwnC7t4ArKTdk%2FaSQI0W1YG6N1NxUlowXnTKPNpPhvQ6egm46Rx7K8ASZz9B3Nr9L%2BOE16WCBd32OneChlVnApDQ5jJufBTmxpy%2BK6WKVNYSUezVSCukSDnMdYmWJ2S7nJOB9dPJPKCLnQe2yx%2B3H3Z6zikpa8pN7dhpOsPBtBCzLAfafxN6jk274J7eaYldrR1EGDQGagFOmQ4c7fw%2BtGsq8fs4EtQw%3D%3D&return_url=http%3A%2F%2Flocalhost%3A8300%2Ftpes%2FalipayReturnNotice&notify_url=http%3A%2F%2Flocalhost%3A8300%2Ftpes%2FalipayNotifyNotice&version=1.0&app_id=2016101900723321&sign_type=RSA2&timestamp=2020-02-27+11%3A37%3A35&alipay_sdk=alipay-sdk-java-3.3.49.ALL&format=json">
+    <input type="hidden" name="biz_content" value="{&quot;out_trade_no&quot;:&quot;1111234&quot;,&quot;total_amount&quot;:&quot;80&quot;,&quot;subject&quot;:&quot;测试充值&quot;,&quot;body&quot;:&quot;用户订购商品个数：1次充值&quot;,&quot;timeout_express&quot;:&quot;1c&quot;,&quot;product_code&quot;:&quot;FAST_INSTANT_TRADE_PAY&quot;}">
+    <input type="submit" value="立即支付" style="display:none" >
+</form>
+<script>document.forms[0].submit();</script>
+</body>
+</html>

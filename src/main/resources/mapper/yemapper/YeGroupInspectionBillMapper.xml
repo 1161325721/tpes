@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cy.tpes.mapper.yeymapper.YeGroupInspectionBillMapper">
+
+    <insert id="insertPatientMessage" parameterType="com.cy.tpes.entity.yeyentity.YePatient" useGeneratedKeys="true" keyProperty="pid">
+        insert into patient
+        (pname, pphone, gcid, pgender, pcardnumber, pidentitynumber, pstate, temp1)
+        values (#{pname},#{pphone},#{gcid},#{pgender},#{pcardnumber},#{pidentitynumber},#{pstate},null);
+    </insert>
+
+
+<!--    <select id="initIsHaveAuthority" parameterType="map" resultType="Menu">-->
+<!--          select C.menuname secondmenu , D.menuname firstmenu ,-->
+<!--          C.menuurl  menuurl , C.menustate menustate from menu C ,menu D-->
+<!--          where  C.secondmenu = D.firstmenu  and C.menustate = #{menustate} and-->
+<!--          C.roleid in (select B.roleid from workerrolerelation B where B.workid in-->
+<!--          (select A.testid from  testtable1  A where testaccount = #{account}))-->
+<!--        </select>-->
+
+<!--    <update id="changeMenuState" parameterType ="map" >-->
+<!--        update menu set menustate = #{menustate} where menuname = #{menuname};-->
+<!--    </update>-->
+
+
+
+</mapper>
