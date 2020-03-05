@@ -3,11 +3,11 @@ server:
   port: 8300
   servlet:
     context-path: /tpes
-
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://119.29.224.49:3306/JX1907?characterEncoding=UTF-8&useUnicode=true&useSSL=true&serverTimezone=UTC&allowMultiQueries=true
+    url: jdbc:mysql://119.29.224.49:3306/JX1907?characterEncoding=UTF-8&useUnicode=true&useSSL=true&serverTimezone=UTC&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull
+
     username: cykj
     password: cykj
     type: com.alibaba.druid.pool.DruidDataSource
@@ -37,14 +37,14 @@ spring:
       prefix: /WEB-INF/page/
 
 mybatis:
-#  config-location: classpath:SqlMapConfig.xml
   mapper-locations: classpath:/mapper/**/*.xml
-  type-aliases-package: com.cy.tpes.entity
-#logging:
-#  level: com.cy.tpes.DEBUG
-#servlet:
-#  multipart:
-#    enabled: true
-#    #location: roy-upload-tmp
-#    max-file-size: 100MB
-#    max-request-size: 100MB
+#  type-aliases-package: com.cy.tpes.entity.**
+
+logging:
+  level:
+    com.cy.tpes: DEBUG
+
+
+
+#  mapper-locations: classpath:/mapper/**/*.xml
+#  type-aliases-package: com.cy.tpes.entity.sysmgr
