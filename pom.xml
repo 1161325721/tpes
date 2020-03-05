@@ -51,7 +51,11 @@
             <scope>runtime</scope>
         </dependency>
 
-<!--        , ./-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -94,8 +98,39 @@
             <artifactId>gson</artifactId>
             <version>2.8.5</version>
         </dependency>
+<!--        aspectj动态代理-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
 
-<!--增加处理Excel文件的依赖，两个，以下都是新增包  叶正阳-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.54</version>
+        </dependency>
+
+<!--        条码生成-->
+        <dependency>
+            <groupId>net.sf.barcode4j</groupId>
+            <artifactId>barcode4j-light</artifactId>
+            <version>2.0</version>
+        </dependency>
+<!--人脸识别-->
+        <dependency>
+            <groupId>com.baidu.aip</groupId>
+            <artifactId>java-sdk</artifactId>
+            <version>4.12.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!--以下新增包  叶正阳-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -120,17 +155,11 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.41</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.alipay.sdk</groupId>
             <artifactId>alipay-sdk-java</artifactId>
             <version>3.3.49.ALL</version>
         </dependency>
-
+        <!--以上新增包  叶正阳-->
     </dependencies>
 
     <build>
