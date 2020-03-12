@@ -1,0 +1,30 @@
+<!-- pages/unitinfo/unitinfo.wxml -->
+<wxs module="tutil" src="../../utils/data.wxs"></wxs>
+<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+<i-panel title="单位信息" wx:for="{{groupClient}}">
+    <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+        <mp-cells>
+            <mp-cell title="单位编号：" ext-class="">
+                <input value="{{ item. gcid}}" disabled="{{true}}" class="weui-input" />
+            </mp-cell>
+            <mp-cell title="单位名字：" ext-class="">
+                <input value="{{ item. gcname}}" disabled="{{true}}" class="weui-input" />
+            </mp-cell>
+            <mp-cell title="账号：" ext-class="">
+                <input value="{{ item. gcaccount}}" disabled="{{true}}" class="weui-input" />
+            </mp-cell>
+            <mp-cell title="注册时间：" ext-class="">
+                <input value="{{tutil.formatTime(item. gcregisterdate)}}" disabled="{{true}}" class="weui-input" />
+            </mp-cell>
+            <mp-cell prop="phone" title="电话号码" ext-class="">
+                <input bindinput="formInputChange" data-field="phone" name="phone" class="weui-input" value="{{ item. gcphone}}" placeholder="输入电话号码" />
+            </mp-cell>
+            <mp-cell prop="email" title="电子邮箱" ext-class="">
+                <input bindinput="formInputChange" data-field="email" name="email" class="weui-input" value="{{ item. gcemail}}" placeholder="输入电子邮箱" />
+            </mp-cell>
+        </mp-cells>
+    </mp-form>
+    <view class="weui-btn-area">
+        <button class="weui-btn" type="primary" bindtap="submitForm">保存</button>
+    </view>
+</i-panel>

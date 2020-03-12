@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.cy.tpes.mapper.sysmgr.PackageMapper">
+
+
+	<select id="findByCondition" resultType="map" parameterType="map">
+		select * from package
+		<where>
+			<if test="packname != null">
+				and packname  like #{packname}
+			</if>
+		</where>
+	</select>
+
+	<select id="findCountByCondition" resultType="int" parameterType="map">
+		select count(*) from package
+		<where>
+			<if test="packname != null">
+				and packname like #{packname}
+			</if>
+		</where>
+	</select>
+
+	<update id="editByCondition" parameterType="map">
+		update package set
+		<foreach collection="_parameter" item="val"  index="key" separator=",">
+			${key} = #{val}
+		</foreach>
+		where packid = #{packid}
+	</update>
+
+	<insert id="add" parameterType="map">
+		<selectKey keyProperty="packid" resultType="int" order="AFTER">
+			select last_insert_id();
+		</selectKey>
+
+		insert into package
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			${key}
+		</foreach>
+		value
+		<foreach collection="_parameter" item="val" index="key" open="(" close=")" separator=",">
+			#{val}
+		</foreach>
+
+	</insert>
+
+	<delete id="del" parameterType="map">
+		delete from package
+		<where>
+			and packid in
+			<foreach collection="delList" item="val" index="key" open="(" close=")" separator=",">
+				#{val}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="addPackageProject" parameterType="map">
+
+		insert into package_project_relation(packid,proid)
+
+		<foreach collection="list" item="li" index="index" separator="UNION ALL">
+
+			(select #{packid},#{li} from dual where not exists
+				(
+					select * from package_project_relation where packid = #{packid} and proid = #{li}
+				))
+		</foreach>
+
+	</insert>
+
+	<delete id="delPackageProject" parameterType="map">
+		delete from package_project_relation
+		<where>
+			and packid = #{packid}
+
+			<if test="list!=null and list.size>0">
+				and proid not in
+				<foreach collection="list" item="val" index="key" open="(" close=")" separator=",">
+					#{val}
+				</foreach>
+			</if>
+
+		</where>
+	</delete>
+
+	<select id="findPackageProject" resultType="map" parameterType="map">
+		(select * from package_project_relation where packid =  #{packid})
+	</select>
+</mapper>
+	

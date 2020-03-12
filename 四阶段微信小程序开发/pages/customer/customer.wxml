@@ -1,0 +1,6 @@
+<!--pages/customer/customer.wxml-->
+
+
+<i-panel title="联系客服解决问题">
+<i-button open-type	="contact" type="success" shape="circle" size="small">联系客服</i-button>
+</i-panel >

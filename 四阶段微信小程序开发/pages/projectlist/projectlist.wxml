@@ -1,0 +1,10 @@
+<wxs module="tutil" src="../../utils/data.wxs"></wxs>
+<i-panel title="历史检查项目小结"  wx:for="{{list}}" wx:key="*this" wx:for-item="mylist">
+  <i-cell-group wx:for="{{mylist.list}}" wx:key="*this" wx:for-item="child">
+    <i-cell wx:for="{{child.checkupProjects}}" wx:for-item="item" title="项目名：{{item.project.pname}}" label="时间：{{tutil.formatTime(item. cpdate)}}" is-link url="/pages/projectitem/projectitem?cpid={{item.cpid}}&gcid={{child.gcid}}&proname={{item.project.pname}}"></i-cell>
+  </i-cell-group>
+  <wux-pagination current="{{ current }}" total="{{mylist.allpage}}" mode="button" controlled bind:change="onChange">
+    <view slot="prev">上一页</view>
+    <view slot="next">下一页</view>
+  </wux-pagination>
+</i-panel>

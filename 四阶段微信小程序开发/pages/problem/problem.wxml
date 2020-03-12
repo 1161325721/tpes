@@ -1,0 +1,48 @@
+<view class="caption-wrap">
+    <text class="caption-title">问题解惑</text>
+    <!-- 搜索框 -->
+    <view class="search__top">
+        <form class='search__form' bindsubmit="searchSubmit">
+            <view class='search__box'>
+                <icon class='search__icon' type="search" size="13" color="#888"></icon>
+                <input class="search__input" value="{{search.searchValue}}" placeholder="输入想要搜索的问题" bindfocus="focusSearch" bindblur="blurSearch" bindinput="searchActiveChangeinput" name="teamSearchKeyWords" />
+                <button wx:if="{{search.showClearBtn}}" catchtap="searchActiveChangeclear" form-type="reset" style="background:none;position:absolute;border:none;right:0;top:0;bottom:0;width:80rpx;">
+                    <icon type="clear" size="19" color="#aaa" style="position:absolute;right:15rpx;top:10rpx;z-index:3;"></icon>
+                </button>
+            </view>
+        </form>
+    </view>
+    <!-- 搜索框输入内容是下方变化 -->
+    <view class="panel" wx:if="{{search.showClearBtn}}" catchtap="searchSubmit">
+        <view class="search__form">
+            <view class="search__box2">
+                <view class="search__icon__box">
+                    <icon class='search__icon2' type="search" size="24" color="#fff"></icon>
+                </view>
+                <view class='search__cell_primary'>
+                    <text>搜索:</text>
+                    <text style="margin-left:20rpx;color:#1AAD19;">{{search.searchValue}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <i-collapse name="{{name}}" accordion wx:for="{{list}}" wx:for-item="child" wx:key="*this">
+        <i-collapse-item wx:for="{{child.list}}" wx:for-item="item" name="{{item.problemid}}"
+         title="{{item.problemtittle}}" i-class-title="collapse-item-title" 
+         i-class-content="collapse-item-content">
+            <view slot="content">答：  {{item.problemsolving}}</view>
+        </i-collapse-item>
+     
+
+
+         <wux-pagination current="{{ current }}" total="{{child.allpage}}"
+          mode="button" controlled bind:change="onChange">
+            <view slot="prev">上一页</view>
+            <view slot="next">下一页</view>
+        </wux-pagination>
+    </i-collapse>
+    <noData wx:if="{{noData}}">
+        <view>暂无数据</view>
+    </noData>
+</view>
+

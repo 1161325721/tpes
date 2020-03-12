@@ -1,0 +1,43 @@
+<i-grid>
+    <i-grid-item bind:tap="myclick" data-key="report">
+        <i-grid-icon icon="homepage">
+<i-icon type="activity" size="28" color="#80848f" />
+        </i-grid-icon>
+        <i-grid-label>体检报告</i-grid-label>
+    </i-grid-item>
+    <i-grid-item bind:tap="myclick" data-key="project">
+        <i-grid-icon>
+<i-icon type="barrage" size="28" color="#80848f" />
+        </i-grid-icon>
+        <i-grid-label>项目小结</i-grid-label>
+    </i-grid-item>
+        <i-grid-item bind:tap="myclick" data-key="user">
+        <i-grid-icon>
+          <i-icon type="mine" size="28" color="#80848f" />
+        </i-grid-icon>
+        <i-grid-label>个人信息</i-grid-label>
+    </i-grid-item>
+   
+    
+</i-grid>
+
+<i-grid>
+    <i-grid-item bind:tap="myclick" data-key="customer">
+        <i-grid-icon>
+          <i-icon type="addressbook" size="28" color="#80848f" />
+        </i-grid-icon>
+        <i-grid-label>联系客服</i-grid-label>
+    </i-grid-item>
+    <i-grid-item>
+        <i-grid-icon>   
+        </i-grid-icon>
+        <i-grid-label>  <text>\n</text>
+</i-grid-label>
+    </i-grid-item>
+     <i-grid-item>
+        <i-grid-icon>           
+        </i-grid-icon>
+        <i-grid-label>  <text>\n</text>
+</i-grid-label>
+    </i-grid-item>
+</i-grid>

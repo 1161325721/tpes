@@ -1,0 +1,14 @@
+<wux-date-picker visible="{{ visible }}" controlled mode="datetime" value="{{ value1 }}" lang="{{ lang }}" data-index="1" data-mode="datetime" bind:confirm="onConfirm" bind:visibleChange="onVisibleChange" />
+
+<view class="page">
+  <view class="page__hd">
+  </view>
+  <view class="page__bd">   
+    <wux-cell-group title="请选择要体检的时间">
+      <wux-date-picker mode="date" value="{{ value2 }}"  data-index="2" data-mode="date" bind:confirm="onConfirm" minDate="{{time}}">
+        <wux-cell title="Date" is-link extra="{{ displayValue2 }}" ></wux-cell>
+      </wux-date-picker>
+    </wux-cell-group>
+   
+  </view>
+</view>

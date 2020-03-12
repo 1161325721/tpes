@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.tpes.mapper.hjx.WxPatientMapper">
+    <insert id="insertPatient" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="pid">
+        insert into patient(gcid, pidentitynumber)
+        values (#{gcid}, #{pidentitynumber})
+    </insert>
+
+
+    <select id="findByidentityCard" resultType="com.cy.tpes.entity.hjx.Patient" parameterType="string">
+        select * from patient
+        <where>
+            <if test="pidentitynumber!=null and  pidentitynumber!=''">
+                and pidentitynumber=#{pidentitynumber};
+            </if>
+        </where>
+    </select>
+
+    <select id="findPatientinfo" resultMap="MyPatient" parameterType="string">
+        select a.* ,b.gcname from patient a,group_client b
+        where a.gcid=b.gcid
+          and pidentitynumber=#{pidentitynumber}
+          and pname=#{pname}
+          and gcname=#{gcname}
+    </select>
+<resultMap id="MyPatient" type="com.cy.tpes.entity.hjx.Patient">
+    <id property="pid" column="pid"/>
+    <id property="gcid" column="gcid"/>
+    <result property="pname" column="pname"/>
+    <result property="pphone" column="pphone"/>
+    <result property="pgender" column="pgender"/>
+    <result property="pcardnumber" column="pcardnumber"/>
+    <result property="pidentitynumber" column="pidentitynumber"/>
+   <association property="groupClient" javaType="com.cy.tpes.entity.hjx.GroupClient">
+       <result property="gcname" column="gcname"/>
+   </association>
+
+</resultMap>
+
+    <update id="updatepatientInfo" parameterType="java.util.Map">
+        update patient
+        <set>
+            <if test="pphone!=null and  pphone!=''">
+                pphone=#{pphone},
+            </if>
+            <if test="pgender!=null and  pgender!=''">
+                pgender=#{pgender},
+            </if>
+        </set>
+        WHERE pid=#{pid};
+    </update>
+
+
+</mapper>

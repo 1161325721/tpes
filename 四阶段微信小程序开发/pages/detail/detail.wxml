@@ -1,0 +1,61 @@
+<!-- pages/detail/detail.wxml -->
+<view wx:for="{{mylist}}" wx:key="*this" wx:for-item="child">
+  <view class="mytext">
+    <image class="myimage" src="https://junxin.mynatapp.cc/tpes{{url}}" mode="scaleToFill" />
+    <text>套餐包含项目详情如下</text>
+  </view>
+  <i-cell-group>
+    <i-cell wx:for="{{child.child}}" wx:for-item="item" wx:key="project" title="项目名：{{item.project}}" value="{{item.price}}元" label="细项：{{item.item}}">
+      <text wx:if="{{item.sexy==1}}">适用性别：男</text>
+      <text wx:else>适用性别：女</text>
+    </i-cell>
+  </i-cell-group>
+
+  <text >套餐原价为：{{child.num}}元</text>
+
+
+
+  <text>\n</text>
+  <text>现折扣价为：{{child.numdiscount}}元</text>
+  <text>\n</text>
+  <text>注：套餐都是一人份的价格</text>
+  <image class="myimage" src="/image/liucheng.png" mode="widthFix" />
+  <image class="myimage" src="/image/checkbody.png" mode="widthFix" />
+  <text>\n</text>
+  <text>\n</text>
+  <view class="goodsaction">
+      <view class="mytext1">
+        
+    <text>现购买价为：{{child.numdiscount}}元</text>
+    </view>
+    <view class="action_btn">
+      <button class="btn_right" bindtap="handleOpen2">立即购买</button>
+    </view>
+  </view>
+  <i-action-sheet visible="{{ visible2 }}" actions="{{ actions2 }}" show-cancel bind:cancel="handleCancel2" bind:click="handleClickItem2" mask-closable="{{ false }}">
+    <view slot="header" style="padding: 16px">
+      <view style="color: #444;font-size: 16px">确定购买吗？</view>
+      <text>请选择你要购买的套餐份数</text>
+      <view style="padding: 16px">
+        <i-input-number value="{{ value1 }}" min="1" max="100" bindchange="handleChange1" />
+      </view>
+      <view class="page">
+        <view class="page__hd">
+        </view>
+        <view class="page__bd">
+          <wux-cell-group title="请选择要体检的时间">
+            <wux-date-picker mode="date" value="{{ value2 }}" data-index="2" 
+            data-mode="date" bind:confirm="onConfirm" minDate="{{time}}">
+              <wux-cell title="确认要体检的时间" is-link extra="{{ displayValue2 }}"></wux-cell>
+            </wux-date-picker>
+          </wux-cell-group>
+
+        </view>
+      </view>
+    </view>
+  </i-action-sheet>
+</view>
+
+<wux-date-picker visible="{{ visible }}" controlled mode="datetime" 
+value="{{ value1 }}" lang="{{ lang }}" data-index="1" data-mode="datetime"
+ bind:confirm="onConfirm" bind:visibleChange="onVisibleChange" />

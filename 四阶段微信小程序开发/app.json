@@ -1,0 +1,81 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/unitinfo/unitinfo",
+    "pages/customer/customer",
+    "pages/money/money",
+    "pages/problem/problem",
+    "pages/updatepwd/updatepwd",
+    "pages/combo/combo",
+    "pages/orderdetail/orderdetail",
+    "pages/input/input",
+    "pages/detail/detail",
+    "pages/management/management",
+    "pages/reg/reg",
+    "pages/unit/unit",
+    "pages/personalEnquiry/personalEnquiry",
+    "pages/project/project",
+    "pages/projectlist/projectlist",
+    "pages/projectitem/projectitem",
+    "pages/report/report",
+    "pages/reportlist/reportlist",
+    "pages/reportinfo/reportinfo",
+    "pages/user/user",
+    "pages/userinfo/userinfo",
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#0094ff",
+    "navigationBarTitleText": "健康体检团检系统",
+    "navigationBarTextStyle": "black"
+  },
+  "usingComponents": {
+    "i-action-sheet": "/dist/action-sheet/index",
+    "i-button": "/dist/button/index",
+    "i-cell-group": "/dist/cell-group/index",
+    "i-cell": "/dist/cell/index",
+    "i-tab-bar": "/dist/tab-bar/index",
+    "i-tab-bar-item": "/dist/tab-bar-item/index",
+    "i-input-number": "/dist/input-number/index",
+    "i-input": "/dist/input/index",
+    "i-message": "/dist/message/index",
+    "i-tabs": "/dist/tabs/index",
+    "i-tab": "/dist/tab/index",
+    "i-card": "/dist/card/index",
+    "i-panel": "/dist/panel/index",
+    "i-collapse": "/dist/collapse/index",
+    "i-collapse-item": "/dist/collapse-item/index",
+    "i-page": "/dist/page/index",
+    "i-icon": "/dist/icon/index",
+    "i-grid": "/dist/grid/index",
+    "i-grid-item": "/dist/grid-item/index",
+    "i-grid-icon": "/dist/grid-icon/index",
+    "i-grid-label": "/dist/grid-label/index",
+    "wux-pagination": "/lib/pagination/index"
+
+  },
+  "tabBar": {
+    "color": "",
+    "selectedColor": "#00C957",
+    "backgroundColor": "",
+    "position": "bottom",
+    "list": [
+      {
+        "pagePath": "pages/login/login",
+        "text": "团检单位登录",
+        "iconPath": "image/tabbar_1.png",
+        "selectedIconPath": "image/tabbar_1.png"
+      },
+      {
+        "pagePath": "pages/personalEnquiry/personalEnquiry",
+        "text": "个人信息查询",
+        "iconPath": "image/tabbar_2.png",
+        "selectedIconPath": "image/tabbar_2.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

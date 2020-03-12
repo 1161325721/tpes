@@ -1,0 +1,35 @@
+<wxs module="tutil" src="../../utils/data.wxs"></wxs>
+<view wx:for="{{list}}" wx:key="*this" wx:for-item="child">
+    <i-panel title="查询个人体检总结">
+        <view wx:for="{{child.checkupProjects}}" wx:key="*this" wx:for-item="item">
+            <i-card title="项目名：{{item.project.pname}}" extra="项目小结时间：{{tutil.formatTime(item.cpdate)}}">
+                <view slot="content">
+                    <i-cell-group>
+                        <i-cell title="影像资料：" wx:if="{{item.sumType=='img'}}">
+                            <image class="myimage" src="https://junxin.mynatapp.cc/tpes/{{item.pic}}" mode="widthFix" />
+                        </i-cell>
+                        <i-cell wx:for="{{item.project.child}}" wx:for-item="my" title="细项名：{{my.item.iname}}" label="最大值：{{my.item.imax}}\n最小值：{{my.item.imin}} \n 单位：{{my.item.iunit}}">
+                            检测值：{{my.cicheckvalue}}\n检测结论：{{my.cicompareresult}}
+                        </i-cell>
+                    </i-cell-group>
+                </view>
+                <!-- <view slot="footer">项目小结： {{child.cpsummary}}</view> -->
+            </i-card>
+            <text>\n</text>
+        </view>
+    </i-panel>
+    <i-panel title="综述总结">
+        <text>{{child.crsummary}}</text>
+    </i-panel>
+    <i-panel title="建议">
+        <text>{{child.crsuggest}}</text>
+    </i-panel>
+    <i-panel title="生活保健指导">
+        <text>{{child.crlifeguide}}</text>
+    </i-panel>
+        <text>总结医生：{{child.worker.wname}}</text>
+
+    <text>\n</text>
+    <text>\n</text>
+    <text>\n</text>
+</view>

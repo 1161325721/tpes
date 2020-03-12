@@ -1,0 +1,14 @@
+<i-card title="项目名：{{proname}}" extra="" wx:for="{{list}}" wx:key="*this" wx:for-item="child"
+ extra="检查医生：{{child.worker.wname}}">
+    <view slot="content">
+        <i-cell-group>
+            <i-cell title="影像资料：" wx:if="{{child.sumType=='img'}}">
+                <image class="myimage" src="https://junxin.mynatapp.cc/tpes/{{child.pic}}" mode="widthFix" />
+            </i-cell>
+            <i-cell wx:for="{{child.checkupItems}}" wx:for-item="item" title="细项名：{{item.item.iname}}" label="最大值：{{item.item.imax}}\n最小值：{{item.item.imin}} \n 单位：{{item.item.iunit}}">
+                检测值：{{item.cicheckvalue}}\n检测结论：{{item.cicompareresult}}
+            </i-cell>
+        </i-cell-group>
+    </view>
+    <view slot="footer">项目小结： {{child.cpsummary}}</view>
+</i-card>

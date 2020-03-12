@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.cy.tpes.mapper.sysmgr.LogMapper">
+
+	<select id="findByCondition" resultType="map" parameterType="map">
+		select * from log
+		<where>
+			<if test="startdate != null">
+				and ltime &gt;= #{startdate}
+			</if>
+			<if test="enddate != null">
+				and ltime &lt;= #{enddate}
+			</if>
+			and lstate = 0;
+		</where>
+	</select>
+
+	<select id="findCountByCondition" resultType="int" parameterType="map">
+		select count(*) from log
+		<where>
+			<if test="startdate != null">
+				and ltime &gt;= #{startdate}
+			</if>
+			<if test="enddate != null">
+				and ltime &lt;= #{enddate}
+			</if>
+			and lstate = 0;
+		</where>
+	</select>
+
+	<update id="del" parameterType="map">
+		update log set lstate = 2
+		<where>
+			and lid in
+			<foreach collection="delList" item="val" index="key" open="(" close=")" separator=",">
+				#{val}
+			</foreach>
+		</where>
+	</update>
+
+</mapper>
+	

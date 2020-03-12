@@ -1,0 +1,54 @@
+<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+
+<view class="page">
+  <view class="page__hd">
+    <swiper indicator-dots="true" indicator-color="#0094ff" autoplay="true" interval="5000" duration="1000" circular="true">
+      <swiper-item>
+        <image mode="scaleToFill" src="/image/swiper_1.jpg" />
+      </swiper-item>
+      <swiper-item>
+        <image mode="scaleToFill" src="/image/swiper_2.jpg" />
+      </swiper-item>
+      <swiper-item>
+        <image mode="scaleToFill" src="/image/swiper_3.jpg" />
+      </swiper-item>
+    </swiper>
+  </view>
+  <view class="page__bd">
+    <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+      <mp-cells title="团检单位注册账号入口">
+
+
+        <mp-cell prop="myget" title="单位名字" ext-class="">
+          <input bindinput="formInputChange" data-field="myget" name="myget" class="weui-input" placeholder="请输入单位名字" />
+        </mp-cell>
+
+        <mp-cell prop="account" title="账号" ext-class="">
+          <input bindinput="formInputChange" data-field="account" name="account" class="weui-input" placeholder="请输入账号" />
+        </mp-cell>
+
+        <mp-cell prop="pwd" title="密码" ext-class="">
+          <input bindinput="formInputChange" password="{{true}}" data-field="pwd" name="pwd" class="weui-input" placeholder="请输入密码" />
+        </mp-cell>
+        <mp-cell prop="repwd" title="确认密码" ext-class="">
+          <input bindinput="formInputChange" password="{{true}}" data-field="repwd" name="repwd" class="weui-input" placeholder="请再次输入密码" />
+        </mp-cell>
+
+
+        <mp-cell prop="phone" title="电话号码" ext-class="">
+          <input bindinput="formInputChange" data-field="phone" name="phone" class="weui-input" 
+          placeholder="再次输入电话号码" />
+        </mp-cell>
+
+          <mp-cell prop="phone" title="电子邮箱" ext-class="">
+          <input bindinput="formInputChange" data-field="email" name="email" class="weui-input" 
+          placeholder="再次输入电子邮箱" />
+        </mp-cell>
+
+
+
+      </mp-cells>
+    </mp-form>
+
+  </view>
+</view>

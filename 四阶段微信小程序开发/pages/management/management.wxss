@@ -1,0 +1,56 @@
+page{
+    background-color:honeydew;
+}
+image{
+  width: 100%;
+    height: 100%;
+}
+/* .item-list{
+    
+} */
+.pro-item{   
+     margin-top: 10rpx;
+    background-color:white;
+    overflow: hidden;
+    padding: 10rpx;
+    padding-left: 30rpx;
+    
+}
+.pro-logo{
+    float: left;
+    width: 190rpx;
+    height: 190rpx;
+
+}
+
+.pro-body{
+    margin-left: 210rpx;
+}
+.pro-title{
+    color: #212121;
+    font-size: 34rpx;
+    line-height: 1; 
+}
+.pro-desc{
+    height: 90rpx;
+    color: #9a9a0a;
+    font-size: 28rpx;
+    line-height: 1.4; 
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    align-content: center;
+}
+.pro-foot{
+   overflow: hidden; 
+       line-height: 2; 
+}
+.btn-detail{
+  float: left;
+ }
+ .btn-buy{
+    float: left;   
+   }

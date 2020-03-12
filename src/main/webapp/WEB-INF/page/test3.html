@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<%
+String path = request.getContextPath();
+String cssPath = request.getContextPath() + "/resources/css/";
+String jsPath = request.getContextPath() + "/resources/js/";
+String layuiCssPath = request.getContextPath() +"/resources/layui/css/layui.css";
+String layuiJsPath = request.getContextPath() +"/resources/layui/layui.js";
+%>
+<head>
+    <title>Title</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="<%=layuiCssPath%>">
+    <link rel="stylesheet" type="text/css" href="<%=cssPath+"yelogin.css"%>">
+    <script  type="text/javascript" src="<%=jsPath+"json2.js"%>"></script>
+	<script type="text/javascript" src="<%=layuiJsPath%>"></script>
+</head>
+<body>
+<%
+if(session.getAttribute("loginResult")!=null){
+String result = (String) session.getAttribute("loginResult");
+System.out.println("result:"+result);
+out.write("<script> alert('账号或密码错误')</script>");
+}
+%>
+<div id="divAll">
+    <span id="title" class="layui-title"><strong>后台登录</strong></span>
+    <input type="hidden" id="path" value="<%=path%>">
+    <form class="layui-form" action="<%=path+"/yelogin.do"%>" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">输入框</label>
+        <div class="layui-input-inline">
+            <input type="text" name="waccount" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码框</label>
+        <div class="layui-input-inline">
+            <input type="password" name="wpass" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+        <%--			<div class="layui-form-mid layui-word-aux">辅助文字</div>--%>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <%--				表单提交登录按钮--%>
+            <button class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <%--				<button class="layui-btn" lay-filter="register" id="register">注册</button>--%>
+        </div>
+    </div>
+    </form>
+</div>
+
+</body>
+</html>

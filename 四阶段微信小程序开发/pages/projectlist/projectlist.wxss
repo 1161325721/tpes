@@ -1,0 +1,4 @@
+/* pages/projectlist/projectlist.wxss */
+page{
+    background-color:honeydew;
+}

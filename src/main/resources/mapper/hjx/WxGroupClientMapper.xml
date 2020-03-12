@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cy.tpes.mapper.hjx.WxGroupClientMapper">
+    <select id="find" resultType="com.cy.tpes.entity.hjx.GroupClient" parameterType="long">
+        select *
+        from group_client
+        where gcaccount = #{gcaccount}
+    </select>
+    <insert id="addGroupClient" parameterType="java.util.Map">
+        insert into group_client(gcname, gcaccount, gcpass, gcphone, gcregisterdate,gcemail)
+        values (#{groupClient.gcname},
+                #{groupClient.gcaccount},
+                #{groupClient.gcpass},
+                #{groupClient.gcphone},
+                #{groupClient.gcregisterdate},
+                #{groupClient.gcemail})
+    </insert>
+    <update id="updateClient" parameterType="java.util.Map">
+        update group_client
+        <set>
+            <if test="groupClient.gcbalance!=null and  groupClient.gcbalance!=''">
+                gcbalance=#{groupClient.gcbalance},
+            </if>
+            <if test="groupClient.gcemail!=null and  groupClient.gcemail!=''">
+                gcemail=#{groupClient.gcemail},
+            </if>
+            <if test="groupClient.gcphone!=null and  groupClient.gcphone!=''">
+                gcphone=#{groupClient.gcphone},
+            </if>
+            <if test="groupClient.gcpass!=null and  groupClient.gcpass!=''">
+                gcpass=#{groupClient.gcpass},
+            </if>
+
+        </set>
+        WHERE gcid=#{groupClient.gcid};
+    </update>
+
+
+</mapper>

@@ -1,0 +1,52 @@
+<i-card title="订单编号为{{goid}}" thumb="https://junxin.mynatapp.cc/tpes{{url}}"
+ extra="已支付" wx:if="{{gostate=='1'}}">
+    <view slot="content">
+        <i-cell-group wx:for="{{mylist}}" wx:key="*this" wx:for-item="child">
+            <i-cell title="套餐名字：" value="{{packname}}"></i-cell>
+            <i-cell title="总价为：" value="{{goprepay}}元"></i-cell>
+            <i-cell title="预约日期为：" value="{{date}}"></i-cell>
+            <i-cell title="有效期为：" value="{{golasttime}}天"></i-cell>
+            <i-cell title="份数：" value="{{child.countnum}}份"></i-cell>
+            <i-cell title="套餐单价：" value="{{numdiscount}}元"></i-cell>
+           <i-cell title="以下套餐内的项目" ></i-cell>
+            <i-cell wx:for="{{child.child}}" wx:for-item="item" wx:key="project" title="项目名：{{item.project}}"  label="细项：{{item.item}}">
+                <text wx:if="{{item.sexy==1}}">适用性别：男</text>
+                <text wx:else>适用性别：女</text>
+            </i-cell>
+        </i-cell-group>
+    </view>
+</i-card>
+<i-card title="订单编号为{{goid}}" thumb="https://junxin.mynatapp.cc/tpes{{url}}" extra="已完成" wx:if="{{gostate=='0'}}">
+    <view slot="content">
+        <i-cell-group wx:for="{{mylist}}" wx:key="*this" wx:for-item="child">
+            <i-cell title="套餐名字：" value="{{packname}}"></i-cell>
+            <i-cell title="总价为：" value="{{goprepay}}元"></i-cell>
+            <i-cell title="预约日期为：" value="{{date}}"></i-cell>
+            <i-cell title="有效期为：" value="{{golasttime}}天"></i-cell>
+            <i-cell title="份数：" value="{{child.countnum}}份"></i-cell>
+            <i-cell title="套餐单价：" value="{{numdiscount}}元"></i-cell>
+             <i-cell title="以下套餐内的项目" ></i-cell>
+            <i-cell wx:for="{{child.child}}" wx:for-item="item" wx:key="project" title="项目名：{{item.project}}"  label="细项：{{item.item}}">
+                <text wx:if="{{item.sexy==1}}">适用性别：男</text>
+                <text wx:else>适用性别：女</text>
+            </i-cell>
+        </i-cell-group>
+    </view>
+</i-card>
+<i-card title="订单编号为{{goid}}" thumb="https://junxin.mynatapp.cc/tpes{{url}}" extra="已取消" wx:if="{{gostate=='2'}}">
+    <view slot="content">
+        <i-cell-group wx:for="{{mylist}}" wx:key="*this" wx:for-item="child">
+            <i-cell title="套餐名字：" value="{{packname}}"></i-cell>
+            <i-cell title="总价为：" value="{{goprepay}}元"></i-cell>
+            <i-cell title="预约日期为：" value="{{date}}"></i-cell>
+            <i-cell title="有效期为：" value="{{golasttime}}天"></i-cell>
+            <i-cell title="份数：" value="{{child.countnum}}份"></i-cell>
+            <i-cell title="套餐单价：" value="{{numdiscount}}元"></i-cell>
+           <i-cell title="以下套餐内的项目" ></i-cell>
+            <i-cell wx:for="{{child.child}}" wx:for-item="item" wx:key="project" title="项目名：{{item.project}}"  label="细项：{{item.item}}">
+                <text wx:if="{{item.sexy==1}}">适用性别：男</text>
+                <text wx:else>适用性别：女</text>
+            </i-cell>
+        </i-cell-group>
+    </view>
+</i-card>

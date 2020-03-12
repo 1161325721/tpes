@@ -1,0 +1,36 @@
+<!-- pages/input/input.wxml -->
+<i-message id="message" />
+<view class="page">
+    <view class="page__hd">
+        <view>订单详情如下：</view>
+        <i-cell-group>
+            <i-cell title="套餐名字：" value="{{packname}}"></i-cell>
+            <i-cell title="总价为：" value="{{goprepay}}元"></i-cell>
+            <i-cell title="预约日期为：" value="{{goappointdate}}"></i-cell>
+            <i-cell title="份数：" value="{{count}}份"></i-cell>
+            <i-cell title="套餐单价：" value="{{numdiscount}}元"></i-cell>
+        </i-cell-group>
+    </view>
+    <view class="page__bd">
+        <form bindsubmit="formSubmit">
+            <wux-cell-group title="请填入要体检人员的身份证号">
+                <wux-cell hover-class="none" wx:for="{{countlist}}">
+                    <wux-field name="input{{item}}" >
+                        <wux-input label="第{{item+1}}个身份证" data-field="input{{item}}" 
+                        type="idcard" placeholder="请输入身份证号码"
+                        bind:change="formInputChange" />
+                    </wux-field>
+                </wux-cell>
+            </wux-cell-group>
+            <view class="btn-area">
+                <button formType="submit" type="primary">确认下单</button>
+            </view>
+        </form>
+    </view>
+</view>
+<i-action-sheet visible="{{ visible2 }}" actions="{{ actions2 }}" show-cancel bind:cancel="handleCancel2" bind:click="handleClickItem2" mask-closable="{{ false }}">
+    <view slot="header" style="padding: 16px">
+        <view style="color: #444;font-size: 16px">确定购买吗？</view>
+        <text>请认真确认你的订单信息</text>
+    </view>
+</i-action-sheet>

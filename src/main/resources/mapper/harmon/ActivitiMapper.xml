@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cy.tpes.mapper.harmon.ActivitiMapper">
+    <select id="queryUserGroup" resultType="CardUser" parameterType="CardAllConditionMsg">
+        select wname as userName ,wid as password ,GROUP_ID_ as groupId from worker left join ACT_ID_MEMBERSHIP on wname
+        = USER_ID_
+        <where>
+            <if test="userName != null and userName != ''">
+                and wname = #{userName}
+            </if>
+            <if test="id != null and id != 0">
+                and wid = #{id}
+            </if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+    <select id="countUserGroup" resultType="java.lang.Integer" parameterType="CardAllConditionMsg">
+        select count(1) from worker left join ACT_ID_MEMBERSHIP on wname = USER_ID_
+        <where>
+            <if test="userName != null and userName != ''">
+                and wname = #{userName}
+            </if>
+            <if test="id != null and id != 0">
+                and wid = #{id}
+            </if>
+        </where>
+    </select>
+    <select id="queryUserPower" resultType="CardUser" parameterType="CardUser">
+        select ID_ as userName, GROUP_ID_ as groupId from ACT_ID_USER ,ACT_ID_MEMBERSHIP
+        <where>
+            ID_ = USER_ID_
+            <if test="userName != null and userName != ''">
+                and ID_ = #{userName}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,14 @@
+<wxs module="tutil" src="../../utils/data.wxs"></wxs>
+<i-panel title="历史检查项目小结" wx:for="{{list}}" wx:key="*this" wx:for-item="child">
+  <i-cell-group >
+    <i-cell wx:for="{{child.list}}" wx:key="*this" wx:for-item="item" 
+    title="报告：{{item.checkupReport.aPackage.packname}}的体检报告"
+     label="时间：{{tutil.formatTime(item.checkupReport.crdate)}}" is-link
+      url="/pages/reportinfo/reportinfo?crid={{item.checkupReport.crid}}&gcid={{item.gcid}}&proname={{item.checkupReport.aPackage.packname}}"></i-cell>
+  </i-cell-group>
+  <wux-pagination current="{{ current }}" total="{{child.allpage}}" mode="button" 
+  controlled bind:change="onChange">
+    <view slot="prev">上一页</view>
+    <view slot="next">下一页</view>
+  </wux-pagination>
+</i-panel>

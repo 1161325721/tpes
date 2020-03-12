@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.tpes.mapper.hjx.WxMyProjectMapper">
+    <select id="findMyPro" resultMap="myProject" parameterType="java.util.Map">
+        select b.gcid, e.*, f.proid myproid, f.pname
+        from patient a,
+             guide_check b,
+             checkup_report d,
+             checkup_project e,
+             project f
+        where a.pcardnumber = b.pcardnumber
+          and d.gcid = b.gcid
+          and d.crid = e.crid
+          and f.proid = e.proid
+          and pidentitynumber = #{pidentitynumber}
+          and a.pname = #{pname}
+        limit #{ofset}, #{limit}
+
+    </select>
+
+    <select id="myProCount" resultType="Integer"
+            parameterType="java.util.Map">
+        select count(*) mycount
+        from patient a,
+             guide_check b,
+             checkup_report d,
+             checkup_project e,
+             project f
+        where a.pcardnumber = b.pcardnumber
+          and d.gcid = b.gcid
+          and d.crid = e.crid
+          and f.proid = e.proid
+          and pidentitynumber = #{pidentitynumber}
+          and a.pname = #{pname}
+    </select>
+
+    <resultMap id="myProject" type="com.cy.tpes.entity.hjx.GuideCheck">
+        <id property="gcid" column="gcid"/>
+        <collection property="checkupProjects" javaType="java.util.List" ofType="com.cy.tpes.entity.hjx.CheckupProject">
+            <id property="cpid" column="cpid"/>
+            <id property="crid" column="crid"/>
+            <id property="wid" column="wid"/>
+            <result property="cpsummary" column="cpsummary"/>
+            <result property="cpdate" column="cpdate"/>
+            <result property="cpstate" column="cpstate"/>
+            <result property="pic" column="pic"/>
+            <association property="project" javaType="com.cy.tpes.entity.hjx.Project">
+                <id property="proid" column="myproid"/>
+                <result property="pname" column="pname"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="findMyItem" resultMap="myitem" parameterType="java.util.Map">
+        select c.*, d.*, e.*, f.wname
+        from guide_check a,
+             checkup_report b,
+             checkup_project c,
+             checkup_item d,
+             item e,
+             worker f
+        where a.gcid = b.gcid
+          and b.crid = c.crid
+          and c.cpid = d.cpid
+          and d.iid = e.iid
+          and c.wid = f.wid
+          and a.gcid = #{gcid}
+          and c.cpid = #{cpid}
+    </select>
+    <resultMap id="myitem" type="com.cy.tpes.entity.hjx.CheckupProject">
+        <result property="cpsummary" column="cpsummary"/>
+        <result property="sumState" column="sum_state"/>
+        <result property="sumType" column="sum_type"/>
+        <result property="pic" column="pic"/>
+        <association property="worker" javaType="com.cy.tpes.entity.hjx.Worker">
+            <result property="wname" column="wname"/>
+        </association>
+        <collection property="checkupItems" javaType="java.util.List"
+                    ofType="com.cy.tpes.entity.hjx.CheckupItem">
+            <result property="cicheckvalue" column="cicheckvalue"/>
+            <result property="cicompareresult" column="cicompareresult"/>
+            <association property="item" javaType="com.cy.tpes.entity.hjx.Item">
+                <result property="iname" column="iname"/>
+                <result property="iunit" column="iunit"/>
+                <result property="imax" column="imax"/>
+                <result property="imin" column="imin"/>
+            </association>
+        </collection>
+
+    </resultMap>
+
+
+    <select id="findreport" resultMap="myreport"
+            parameterType="java.util.Map">
+        select b.gcid mygcid, d.*, e.*
+        from patient a,
+             guide_check b,
+             checkup_report d,
+             package e
+        where a.pcardnumber = b.pcardnumber
+          and d.gcid = b.gcid
+          and b.packid = e.packid
+          and b.gcstate=2
+          and pidentitynumber = #{pidentitynumber}
+          and a.pname = #{pname}
+        limit #{ofset}, #{limit}
+
+    </select>
+
+    <resultMap id="myreport" type="com.cy.tpes.entity.hjx.GuideCheck">
+        <id property="gcid" column="mygcid"/>
+        <association property="checkupReport" javaType="com.cy.tpes.entity.hjx.CheckupReport"
+                     resultMap="mypack">
+        </association>
+    </resultMap>
+    <resultMap id="mypack" type="com.cy.tpes.entity.hjx.CheckupReport">
+        <id property="crid" column="crid"/>
+        <result property="crdate" column="crdate"/>
+        <association property="aPackage" javaType="com.cy.tpes.entity.hjx.Package">
+            <result property="packname" column="packname"/>
+        </association>
+    </resultMap>
+    <select id="myreportcount" resultType="Integer"
+            parameterType="java.util.Map">
+        select count(*) mycount
+        from patient a,
+             guide_check b,
+             checkup_report d,
+             package e
+        where a.pcardnumber = b.pcardnumber
+          and d.gcid = b.gcid
+          and b.packid = e.packid
+          and b.gcstate=2
+          and pidentitynumber = #{pidentitynumber}
+          and a.pname = #{pname}
+    </select>
+
+
+    <select id="findreportinfo" resultMap="myreportinfo"
+            parameterType="java.util.Map">
+        select b.*, c.*, d.*, e.*, f.wname, g.*
+        from guide_check a,
+             checkup_report b,
+             checkup_project c,
+             project d,
+             checkup_item e,
+             worker f,
+             item g
+        where b.gcid = a.gcid
+          and b.crid = c.crid
+          and c.proid = d.proid
+          and c.cpid = e.cpid
+          and b.workid = f.wid
+          and g.iid = e.iid
+          and a.gcid = #{gcid}
+          and b.crid = #{crid}
+    </select>
+    <resultMap id="myreportinfo" type="com.cy.tpes.entity.hjx.CheckupReport">
+        <result property="crsummary" column="crsummary"/>
+        <result property="crsuggest" column="crsuggest"/>
+        <result property="crlifeguide" column="crlifeguide"/>
+        <association property="worker" javaType="com.cy.tpes.entity.hjx.Worker">
+            <result property="wname" column="wname"/>
+        </association>
+        <collection property="checkupProjects" javaType="java.util.List"
+                    ofType="com.cy.tpes.entity.hjx.CheckupProject" resultMap="myProjectinfo">
+        </collection>
+    </resultMap>
+    <resultMap id="myProjectinfo" type="com.cy.tpes.entity.hjx.CheckupProject">
+        <result property="cpsummary" column="cpsummary"/>
+        <result property="sumState" column="sum_state"/>
+        <result property="sumType" column="sum_type"/>
+        <result property="pic" column="pic"/>
+        <result property="cpdate" column="cpdate"/>
+        <association property="project" javaType="com.cy.tpes.entity.hjx.Project"
+                     resultMap="myiteminfo">
+        </association>
+    </resultMap>
+    <resultMap id="myiteminfo" type="com.cy.tpes.entity.hjx.Project">
+        <result property="pname" column="pname"/>
+        <collection property="child" javaType="java.util.List"
+                    ofType="com.cy.tpes.entity.hjx.CheckupItem" resultMap="myitemname">
+
+        </collection>
+    </resultMap>
+    <resultMap id="myitemname" type="com.cy.tpes.entity.hjx.CheckupItem">
+        <result property="cicheckvalue" column="cicheckvalue"/>
+        <result property="cicompareresult" column="cicompareresult"/>
+        <association property="item" javaType="com.cy.tpes.entity.hjx.Item">
+            <result property="iname" column="iname"/>
+            <result property="iunit" column="iunit"/>
+            <result property="imax" column="imax"/>
+            <result property="imin" column="imin"/>
+        </association>
+
+    </resultMap>
+</mapper>

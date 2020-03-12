@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.cy.tpes.mapper.hwxmapper.CommonMapper">
+
+
+<!--    <insert id="" >-->
+<!--    insert  into log(wid,ltype,lmessage,lstate) values (#{wid},#{ltype},#{lmessage},#{lstate})-->
+<!--	</insert>-->
+    <select id="findUser" resultType="com.cy.tpes.entity.hwxbean.Worker" parameterType="String">
+	select a.*,b.*,c.*
+	from worker a
+	left join department b on a.did = b.did
+	left join role c on a.rid = c.rid
+	where  a.waccount = #{account}
+	</select>
+
+    <select id="findMenu" resultType="com.cy.tpes.entity.hwxbean.Menu" parameterType="String">
+
+	</select>
+
+    <update id="updatePwd" >
+        update worker set wpass =#{password} where waccount=#{account};
+    </update>
+
+	<select id="roleMenu" resultType="com.cy.tpes.entity.hwxbean.Menu">
+select a.*, a.mname 'secondname',c.mname 'firstname'from menu a,role_menu_relation b, menu c
+WHERE a.mid = b.mid
+  and a.mparentid = c.mid
+  and b.rid = #{rid}
+;
+</select>
+
+
+
+<!--返回报告号 查询操作 gcid    其他的数据要为0 或者暂无    日期要自动填写-->
+    <insert id="addReport" parameterType="com.cy.tpes.entity.hwxbean.CheckupReport" useGeneratedKeys="true" keyProperty="crid">
+    insert into checkup_report(gcid,crsummary,crsuggest,crlifeguide,workid) values (#{gcid},'无','无','无','0') ;
+    </insert>
+
+
+
+<!--    返回gcid下有多少个项目   gcid-->
+    <select id="projectNum" resultType="com.cy.tpes.entity.hwxbean.Project">
+    select f.*
+from guide_check a
+    left join order_package_relation b  on a.goid =b.goid
+    left join package c on b.packid = c.packid
+    left join package_project_relation d on d.packid = c.packid
+    left join project f on f.proid = d.proid
+    left join patient h on h.pidentitynumber = b.pidentitynumber
+where a.gcid =#{gcid} and  a.pcardnumber = h.pcardnumber
+;
+    </select>
+
+
+<!--    插入报告 绑定报告号 返回id    cpid gcid    其他数据要自动填写 0或者暂无 -->
+<insert id="bindProject" parameterType="com.cy.tpes.entity.hwxbean.CheckupProject" useGeneratedKeys="true" keyProperty="cpid" >
+       insert into checkup_project(crid,proid,cpsummary,cpstate,sum_state,wid) values (#{crid},#{proid},'无','0','0','0');
+</insert>
+<!--    查询gcid下有多少个细项 gcid-->
+<select id="ItemNum" resultType="com.cy.tpes.entity.hwxbean.Item">
+select h.*
+from guide_check a
+         left join order_package_relation b  on a.goid =b.goid
+         left join package c on b.packid = c.packid
+         left join package_project_relation d on d.packid = c.packid
+         left join project f on f.proid = d.proid
+         left join project_item_relation g on g.proid =d.proid
+         left join item h on h.iid =g.iid
+         left join patient i on i.pidentitynumber = b.pidentitynumber
+where a.gcid =#{gcid} and d.proid =#{proid} and a.pcardnumber = i.pcardnumber
+;
+</select>
+<!--     插入细项checkitem记录 gcid cpid   没有的就暂无-->
+<insert id="addCheckItem">
+       insert into checkup_item(cpid,iid,cicheckvalue,cicompareresult,wid) values (#{cpid},#{iid},'0','0','0');
+</insert>
+
+</mapper>

@@ -1,0 +1,21 @@
+{
+  "usingComponents": {
+      "wux-cell-group": "/lib/cell-group/index",
+      "wux-cell": "/lib/cell/index",
+      "wux-form": "/lib/form/index",
+      "wux-field": "/lib/field/index",
+      "wux-slider": "/lib/slider/index",
+      "wux-rater": "/lib/rater/index",
+      "wux-input-number": "/lib/input-number/index",
+      "wux-textarea": "/lib/textarea/index",
+      "wux-input": "/lib/input/index",
+      "wux-checkbox-group": "/lib/checkbox-group/index",
+      "wux-checkbox": "/lib/checkbox/index",
+      "wux-radio-group": "/lib/radio-group/index",
+      "wux-radio": "/lib/radio/index",
+      "wux-switch": "/lib/switch/index",
+      "wux-picker": "/lib/picker/index",
+      "wux-date-picker": "/lib/date-picker/index",
+      "wux-popup-select": "/lib/popup-select/index"
+  }
+}

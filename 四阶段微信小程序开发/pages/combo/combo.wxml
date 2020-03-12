@@ -1,0 +1,64 @@
+<swiper indicator-dots="true" indicator-color="#0094ff" autoplay="true" interval="5000" duration="1000" circular="true">
+  <swiper-item>
+    <image mode="scaleToFill" src="/image/swiper_1.jpg" />
+  </swiper-item>
+  <swiper-item>
+    <image mode="scaleToFill" src="/image/swiper_2.jpg" />
+  </swiper-item>
+  <swiper-item>
+    <image mode="scaleToFill" src="/image/swiper_3.jpg" />
+  </swiper-item>
+</swiper>
+<!-- 搜索框 -->
+<view class="search__top">
+  <form class='search__form' bindsubmit="searchSubmit">
+    <view class='search__box'>
+      <icon class='search__icon' type="search" size="13" color="#888"></icon>
+      <input class="search__input" value="{{search.searchValue}}"
+       placeholder="输入想要搜索的套餐名" bindfocus="focusSearch"  bindblur="blurSearch"
+       bindinput="searchActiveChangeinput"  name="teamSearchKeyWords" />
+      <button wx:if="{{search.showClearBtn}}" catchtap="searchActiveChangeclear" form-type="reset" style="background:none;position:absolute;border:none;right:0;top:0;bottom:0;width:80rpx;">
+        <icon type="clear" size="19" color="#aaa" style="position:absolute;right:15rpx;top:10rpx;z-index:3;"></icon>
+      </button>
+    </view>
+  </form>
+</view>
+<!-- 搜索框输入内容是下方变化 -->
+<view class="panel" wx:if="{{search.showClearBtn}}" catchtap="searchSubmit">
+  <view class="search__form">
+    <view class="search__box2">
+      <view class="search__icon__box">
+        <icon class='search__icon2' type="search" size="24" color="#fff"></icon>
+      </view>
+      <view class='search__cell_primary'>
+        <text>搜索:</text>
+        <text style="margin-left:20rpx;color:#1AAD19;">{{search.searchValue}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="item-list">
+  <view class="pro-item" wx:for="{{list}}" wx:key="packid">
+    <image class="pro-logo" src="https://junxin.mynatapp.cc/tpes{{item.imageurl}}" />
+    <view class="pro-body">
+      <view class="pro-title">{{item.packname}}</view>
+      <text class="pro-desc">{{item.packintroduction}}</text>
+      <view class="pro-foot">
+        <button size="mini" type="primary" class="btn-detail" bindtap="detail" id="{{item.packid}}"
+         data-url="{{item.imageurl}}"  data-packname="{{item.packname}}">查看详情</button>
+        <!-- <button size="mini" type="warn" class="btn-buy">购买</button> -->
+      </view>
+    </view>
+  </view>
+</view>
+<noData wx:if="{{noData}}">
+  <view>暂无数据</view>
+</noData>
+<text>\n</text>
+<text>\n</text>
+
+<i-tab-bar current="{{ current }}" color="#f759ab" bindchange="handleChange" fixed="true">
+  <i-tab-bar-item key="combo" icon="homepage" current-icon="homepage_fill" title="首页"></i-tab-bar-item>
+  <i-tab-bar-item key="management" icon="remind" current-icon="remind_fill" title="订单"></i-tab-bar-item>
+  <i-tab-bar-item key="unit" icon="mine" current-icon="mine_fill" title="单位查询"></i-tab-bar-item>
+</i-tab-bar>

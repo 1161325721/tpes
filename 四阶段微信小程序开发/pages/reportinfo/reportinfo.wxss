@@ -1,0 +1,4 @@
+/* pages/reportinfo/reportinfo.wxss */
+page{
+    background-color:honeydew;
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.tpes.mapper.hjx.WxProjectMapper">
+    <select id="findproject" resultMap="Project" parameterType="java.util.Map">
+        select C.proid proid,C.pcharge pcharge,C.pname pname,C.pgender pgender,E.iname iname
+        from project C,project_item_relation D, item E
+        where C.proid=D.proid
+        AND D.iid=E.iid
+        AND    C.proid in
+        (select B.proid   from package A,
+        package_project_relation B
+        WHERE A.packid = B.packid
+        <if test="packid!=null and  packid!=''">
+            and A.packid = #{packid}
+        </if>
+              )
+    </select>
+    
+    <resultMap id="Project" type="com.cy.tpes.entity.hjx.Project">
+        <id property="proid" column="proid"/>
+        <result property="pname" column="pname"/>
+        <result property="pcharge" column="pcharge"/>
+        <result property="pgender" column="pgender"/>
+     <collection property="child" javaType="java.util.List" ofType="com.cy.tpes.entity.hjx.Item">
+         <result property="iname" column="iname"/>
+     </collection>
+    </resultMap>
+</mapper>

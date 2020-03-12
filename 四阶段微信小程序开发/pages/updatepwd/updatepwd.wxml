@@ -1,0 +1,24 @@
+<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+<i-panel title="修改密码" >
+<view class="page">
+    <view class="page__hd"></view>
+    <view class="page__bd">
+        <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+            <mp-cells>
+                <mp-cell prop="oldpwd" title="密码" ext-class="">
+                    <input bindinput="formInputChange" password="{{true}}" data-field="oldpwd" name="oldpwd" class="weui-input" placeholder="请输入密码" />
+                </mp-cell>
+                <mp-cell prop="newpwd" title="确认密码" ext-class="">
+                    <input bindinput="formInputChange" password="{{true}}" data-field="newpwd" name="newpwd" class="weui-input" placeholder="请再次输入密码" />
+                </mp-cell>
+                <mp-cell prop="renewpwd" title="再次确认密码" ext-class="">
+                    <input bindinput="formInputChange" password="{{true}}" data-field="renewpwd" name="renewpwd" class="weui-input" placeholder="请再次输入密码" />
+                </mp-cell>
+            </mp-cells>
+        </mp-form>
+        <view class="weui-btn-area">
+            <button class="weui-btn" type="primary" bindtap="submitForm">确认修改</button>
+        </view>
+    </view>
+</view>
+</i-panel>

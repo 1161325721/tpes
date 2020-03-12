@@ -1,0 +1,4 @@
+/* pages/unitinfo/unitinfo.wxss */
+page{
+    background-color:honeydew;
+}

@@ -1,0 +1,139 @@
+<wxs module="tutil" src="../../utils/data.wxs"></wxs>
+<i-tab-bar current="{{ current }}" color="#f759ab" bindchange="handleChange" fixed="true">
+  <i-tab-bar-item key="combo" icon="homepage" current-icon="homepage_fill" title="首页"></i-tab-bar-item>
+  <i-tab-bar-item key="management" icon="remind" current-icon="remind_fill" title="订单"></i-tab-bar-item>
+  <i-tab-bar-item key="unit" icon="mine" current-icon="mine_fill" title="单位查询"></i-tab-bar-item>
+</i-tab-bar>
+<i-tabs current="{{ current1 }}" color="#B32BD5" bindchange="handleChange1">
+  <i-tab key="" title="全部"></i-tab>
+  <i-tab key="1" title="已支付"></i-tab>
+  <i-tab key="0" title="已完成"></i-tab>
+  <i-tab key="2" title="已取消"></i-tab>
+</i-tabs>
+<!-- 全部 -->
+<view wx:if="{{current1==''}}">
+  <view class="item-list">
+    <view class="pro-item" wx:for="{{list}}" wx:key="packid">
+    <text >   订单创建日期：{{tutil.formatTime(item.goordertime)}}</text>  <text>\n</text>
+
+          <text >编号为：{{item.goid}} </text>
+
+      <image class="pro-logo" src="https://junxin.mynatapp.cc/tpes{{item.aPackage.imageurl}}" />
+      <view class="pro-body">
+        <view class="pro-title">{{item.aPackage.packname}}</view>
+        <text class="pro-desc">{{item.aPackage.packintroduction}}</text>
+        <view class="pro-foot">
+          <text>￥{{item.goprepay}}</text>
+          <button size="mini" type="primary" class="btn-detail" bindtap="orderdetail"
+           id="{{item.aPackage.packid}}" data-url="{{item.aPackage.imageurl}}" 
+           data-packname="{{item.aPackage.packname}}" 
+           data-goid="{{item.goid}}" data-gostate="{{item.gostate}}"
+            data-date="{{item.goappointdate}}" data-goprepay="{{item.goprepay}}"  
+           data-golasttime="{{item. golasttime}}"  
+            >
+            订单查看
+          </button>
+          <button wx:if="{{item.gostate==1}}" size="mini" type="warn" class="btn-buy"
+          bindtap="cancel"  data-myitem="{{item}}"
+          >取消订单</button>
+       </view>
+      </view>
+    </view>
+  </view>
+  <noData wx:if="{{noData}}">
+    <view>暂无数据</view>
+  </noData>
+  <text>\n</text>
+  <text>\n</text>
+</view>
+<!-- 已支付 -->
+<view wx:if="{{current1=='1'}}">
+  <view class="item-list">
+    <view class="pro-item" wx:for="{{list}}" wx:key="packid">
+      <image class="pro-logo" src="https://junxin.mynatapp.cc/tpes{{item.aPackage.imageurl}}" />
+      <view class="pro-body">
+        <view class="pro-title">{{item.aPackage.packname}}</view>
+        <text class="pro-desc">{{item.aPackage.packintroduction}}</text>
+        <view class="pro-foot">
+          <text>￥{{item.goprepay}}</text>
+       <button size="mini" type="primary" class="btn-detail" bindtap="orderdetail"
+           id="{{item.aPackage.packid}}" data-url="{{item.aPackage.imageurl}}" 
+           data-packname="{{item.aPackage.packname}}" 
+           data-goid="{{item.goid}}" data-gostate="{{item.gostate}}"
+            data-date="{{item.goappointdate}}" data-goprepay="{{item.goprepay}}"  
+           data-golasttime="{{item. golasttime}}"  
+            >        订单查看
+          </button>
+ <button wx:if="{{item.gostate==1}}" size="mini" type="warn" class="btn-buy"
+          bindtap="cancel"  data-myitem="{{item}}"
+          >取消订单</button>
+                  </view>
+      </view>
+    </view>
+  </view>
+  <noData wx:if="{{noData}}">
+    <view>暂无数据</view>
+  </noData>
+  <text>\n</text>
+  <text>\n</text>
+</view>
+<!-- 已完成 -->
+<view wx:if="{{current1=='0'}}">
+  <view class="item-list">
+    <view class="pro-item" wx:for="{{list}}" wx:key="packid">
+      <image class="pro-logo" src="https://junxin.mynatapp.cc/tpes{{item.aPackage.imageurl}}" />
+      <view class="pro-body">
+        <view class="pro-title">{{item.aPackage.packname}}</view>
+        <text class="pro-desc">{{item.aPackage.packintroduction}}</text>
+        <view class="pro-foot">
+          <text>￥{{item.goprepay}}</text>
+       <button size="mini" type="primary" class="btn-detail" bindtap="orderdetail"
+           id="{{item.aPackage.packid}}" data-url="{{item.aPackage.imageurl}}" 
+           data-packname="{{item.aPackage.packname}}" 
+           data-goid="{{item.goid}}" data-gostate="{{item.gostate}}"
+            data-date="{{item.goappointdate}}" data-goprepay="{{item.goprepay}}"  
+           data-golasttime="{{item. golasttime}}"  
+            >       订单查看
+          </button>
+ <button wx:if="{{item.gostate==1}}" size="mini" type="warn" class="btn-buy"
+          bindtap="cancel"  data-myitem="{{item}}"
+          >取消订单</button>        </view>
+      </view>
+    </view>
+  </view>
+  <noData wx:if="{{noData}}">
+    <view>暂无数据</view>
+  </noData>
+  <text>\n</text>
+  <text>\n</text>
+</view>
+<!-- 已取消 -->
+<view wx:if="{{current1=='2'}}">
+  <view class="item-list">
+    <view class="pro-item" wx:for="{{list}}" wx:key="packid">
+      <image class="pro-logo" src="https://junxin.mynatapp.cc/tpes{{item.aPackage.imageurl}}" />
+      <view class="pro-body">
+        <view class="pro-title">{{item.aPackage.packname}}</view>
+        <text class="pro-desc">{{item.aPackage.packintroduction}}</text>
+        <view class="pro-foot">
+          <text>￥{{item.goprepay}}</text>
+        <button size="mini" type="primary" class="btn-detail" bindtap="orderdetail"
+           id="{{item.aPackage.packid}}" data-url="{{item.aPackage.imageurl}}" 
+           data-packname="{{item.aPackage.packname}}" 
+           data-goid="{{item.goid}}" data-gostate="{{item.gostate}}"
+            data-date="{{item.goappointdate}}" data-goprepay="{{item.goprepay}}"  
+           data-golasttime="{{item. golasttime}}"  
+            >        订单查看
+          </button>
+ <button wx:if="{{item.gostate==1}}" size="mini" type="warn" class="btn-buy"
+          bindtap="cancel"  data-myitem="{{item}}"
+          >取消订单</button>        </view>
+      </view>
+    </view>
+  </view>
+  <noData wx:if="{{noData}}">
+    <view>暂无数据</view>
+  </noData>
+  <text>\n</text>
+  <text>\n</text>
+</view>

@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cy.tpes.mapper.harmon.CardMapper">
+    <!--    卡入库相关-->
+
+    <insert id="cardStorageInsterRrcord" parameterType="CardStorage">
+    insert into JX1907.card_storage(card_prefix, card_sfxstart, card_sfxend, card_quat, storage_date, storage_wid)
+        values (#{cardPrefix}, #{cardSfxstart}, #{cardSfxend}, #{cardQuat}, #{storageDate}, #{storageWid})
+    </insert>
+
+    <insert id="cardStorageInsterCard" parameterType="Card">
+        insert into card (card_no, balance, card_state) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.cardNo},#{item.balance},#{item.cardState})
+        </foreach>
+    </insert>
+
+    <select id="queryCardStorage" resultType="CardStorage" parameterType="CardAllConditionMsg">
+        select cs_id, card_prefix, card_sfxstart, card_sfxend, card_quat, storage_date, storage_wid, wname as
+        storageWname from card_storage ,worker
+        <where>
+            storage_wid = wid
+            <if test="cardPrefix != null and cardPrefix != ''">
+                and card_prefix = #{cardPrefix}
+            </if>
+            <if test="cardSfxstart != null and cardSfxstart != ''">
+                and card_sfxstart = #{cardSfxstart}
+            </if>
+            <if test="cardSfxend != null and cardSfxend != ''">
+                and card_sfxend = #{cardSfxend}
+            </if>
+            <if test="fdate != null and fdate != ''">
+                and storage_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and storage_date &lt;= #{edate}
+            </if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="countCardStorage" resultType="java.lang.Integer" parameterType="CardAllConditionMsg">
+        select count(1) from card_storage ,worker
+        <where>
+            storage_wid = wid
+            <if test="cardPrefix != null and cardPrefix != ''">
+                and card_prefix = #{cardPrefix}
+            </if>
+            <if test="cardSfxstart != null and cardSfxstart != ''">
+                and card_sfxstart = #{cardSfxstart}
+            </if>
+            <if test="cardSfxend != null and cardSfxend != ''">
+                and card_sfxend = #{cardSfxend}
+            </if>
+            <if test="fdate != null and fdate != ''">
+                and storage_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and storage_date &lt;= #{edate}
+            </if>
+        </where>
+    </select>
+    <!--卡申请相关-->
+    <insert id="cardApplyInsertRrcord" parameterType="CardApply" keyProperty="capplyId" useGeneratedKeys="true">
+        insert into JX1907.card_apply(apply_date, applay_quat, apply_wid, audit_wid, audit_date, card_prefix, card_sfxstart, card_sfxend, apply_state)
+        values (#{applyDate}, #{applayQuat}, #{applyWid}, #{auditWid}, #{auditDate}, #{cardPrefix}, #{cardSfxstart}, #{cardSfxend}, #{applyState})
+    </insert>
+
+    <select id="queryCardApply" resultType="CardApply" parameterType="CardAllConditionMsg">
+        select
+        capply_id, apply_date, applay_quat, apply_wid, audit_wid, audit_date, card_prefix, card_sfxstart, card_sfxend,
+        apply_state, t1.wname as applyWname,t2.wname as auditWname
+        from (select * from card_apply,worker where apply_wid = wid) as t1 left join worker as t2 on t1.audit_wid=t2.wid
+        <where>
+            <if test="fdate != null and fdate != ''">
+                and apply_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and apply_date &lt;= #{edate}
+            </if>
+            <if test="applyState != null and applyState != ''">
+                and apply_state = #{applyState}
+            </if>
+            <if test="applyWid != null and applyWid!=0">
+                and apply_wid = #{applyWid}
+            </if>
+            <if test="id != null and id!=0">
+                and capply_id = #{id}
+            </if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+    <select id="countCardApply" resultType="java.lang.Integer" parameterType="CardAllConditionMsg">
+        select count(1)
+        from (select * from card_apply,worker where apply_wid = wid) as t1 left join worker as t2 on t1.audit_wid=t2.wid
+        <where>
+            <if test="fdate != null and fdate != ''">
+                and apply_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and apply_date &lt;= #{edate}
+            </if>
+            <if test="applyState != null and applyState != ''">
+                and apply_state = #{applyState}
+            </if>
+            <if test="applyWid != null and applyWid!=0">
+                and apply_wid = #{applyWid}
+            </if>
+            <if test="id != null and id!=0">
+                and capply_id = #{id}
+            </if>
+        </where>
+    </select>
+    <!--    修改申请-->
+    <update id="cardApplyUpdateRrcord" parameterType="CardApply">
+        update JX1907.card_apply
+        <set>
+            <if test="applyDate != null">
+                apply_date = #{applyDate},
+            </if>
+            <if test="applayQuat != null">
+                applay_quat = #{applayQuat},
+            </if>
+            <if test="applyWid != null">
+                apply_wid = #{applyWid},
+            </if>
+            <if test="auditWid != null">
+                audit_wid = #{auditWid},
+            </if>
+            <if test="auditDate != null">
+                audit_date = #{auditDate},
+            </if>
+            <if test="cardPrefix != null and cardPrefix != ''">
+                card_prefix = #{cardPrefix},
+            </if>
+            <if test="cardSfxstart != null">
+                card_sfxstart = #{cardSfxstart},
+            </if>
+            <if test="cardSfxend != null">
+                card_sfxend = #{cardSfxend},
+            </if>
+            <if test="applyState != null">
+                apply_state = #{applyState},
+            </if>
+        </set>
+        where capply_id = #{capplyId}
+    </update>
+    <!--查询工作人员-->
+    <select id="queryAllCardProposer" resultType="com.cy.tpes.entity.hwxbean.Worker">
+        select
+        wid, waccount, wpass, wname, rid, did, wstate, wtime, wphone
+        from JX1907.worker where  rid = #{rid}
+    </select>
+    <!--卡查询-->
+    <select id="queryAllCard" resultType="Card" parameterType="Card">
+        select
+        card_id, card_no, pcardnumber, issue_date, issue_wid, time_cost, card_prefix, card_suffix, apply_wid, get_date,
+        balance,
+        card_state
+        from JX1907.card
+        <where>
+            <if test="cardPrefix != null and cardPrefix != ''">
+                and card_prefix = #{cardPrefix}
+            </if>
+            <if test="cardState != null">
+                and card_state = #{cardState}
+            </if>
+        </where>
+        order by card_id asc limit #{offset}, #{limit}
+    </select>
+
+    <update id="cardUpdateToAudit" parameterType="java.util.Map">
+        <foreach collection="cardlist" item="item" index="index" open="" close="" separator=";">
+            update JX1907.card
+            <set>
+                apply_wid = #{card.applyWid},get_date = #{card.getDate},card_state = #{card.cardState},capply_id =
+                #{card.capplyId}
+            </set>
+            where card_id = #{item.cardId}
+        </foreach>
+    </update>
+
+    <select id="queryCardByApplyId" resultType="Card" parameterType="Card">
+        select card_id, card_no, pcardnumber, issue_date, issue_wid, time_cost, card_prefix, card_suffix, apply_wid, get_date, balance, card_state, capply_id
+        from JX1907.card
+        where capply_id = #{capplyId}
+    </select>
+
+    <select id="queryCardInfo" resultType="Card" parameterType="Card">
+        select card_id, card_no, pcardnumber, issue_date, issue_wid, time_cost, card_prefix, card_suffix, apply_wid, get_date, balance, card_state, capply_id
+        from JX1907.card
+        where card_no = #{cardNo} and card_state = #{cardState}
+    </select>
+
+    <select id="queryPatientInfo" resultType="com.cy.tpes.entity.hwxbean.Patient"
+            parameterType="com.cy.tpes.entity.hwxbean.Patient">
+        select
+          pid, pname, pphone, gcid, pgender, pcardnumber, pidentitynumber, pstate, packname, sign_date
+        from JX1907.patient
+        where pidentitynumber = #{pidentitynumber}
+    </select>
+
+    <update id="cardIssue" parameterType="Card">
+            update JX1907.card set pcardnumber =#{pcardnumber} ,issue_date =#{issueDate} ,issue_wid =#{issueWid} ,time_cost =#{timeCost},card_state = #{cardState}
+            where card_id = #{cardId}
+    </update>
+    <select id="queryGroupClientById" resultType="GroupClient" parameterType="GroupClient">
+        select
+          gcid, gcname, gcaccount, gcpass, gcbalance, gcphone, gcregisterdate, gcstate, gcemail
+        from JX1907.group_client
+        where gcid = #{gcid}
+    </select>
+
+    <select id="queryCardOrigoByOrigoNo" resultType="CardOrigo" parameterType="CardOrigo">
+        select
+          corigo_id, origo_no, origo_name
+        from JX1907.card_origo
+        where origo_no = #{origoNo}
+    </select>
+    <select id="queryCardInfoByPcardnumber" resultType="Card" parameterType="Card">
+        select card_id, card_no, pcardnumber, issue_date, issue_wid, time_cost, card_prefix, card_suffix, apply_wid, get_date, balance, card_state, capply_id
+        from JX1907.card
+        where pcardnumber = #{pcardnumber} and card_state = #{cardState}
+    </select>
+
+    <insert id="insertCardChange" parameterType="CardChange">
+        insert into JX1907.card_change(pcardnumber, card_old, card_new, chage_wid, change_date)
+        values (#{pcardnumber}, #{cardOld}, #{cardNew}, #{chageWid}, #{changeDate})
+    </insert>
+    <!--    换卡后取消旧卡-->
+    <update id="cardOldUpdateAferChage" parameterType="Card">
+            update JX1907.card set  card_state = #{cardState}
+            where card_id = #{cardId}
+    </update>
+
+    <select id="queryCardCancel" resultType="CardCancel" parameterType="CardAllConditionMsg">
+        select
+        t1.ccancel_id, t1.card_no, t1.cancel_wid, t1.cancel_cause, t1.cancel_date, t1.audit_wid, t1.audit_date,
+        t1.apply_state, t1.wname as cancelWname,t2.wname as auditWname
+        from (select * from card_cancel,worker where cancel_wid = wid) as t1 left join worker as t2 on
+        t1.audit_wid=t2.wid
+        <where>
+            <if test="fdate != null and fdate != ''">
+                and cancel_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and cancel_date &lt;= #{edate}
+            </if>
+            <if test="applyState != null and applyState !=0">
+                and apply_state = #{applyState}
+            </if>
+            <if test="cancelWid != null and cancelWid!=0">
+                and cancel_wid = #{cancelWid}
+            </if>
+            <if test="id != null and id!=0">
+                and ccancel_id = #{id}
+            </if>
+            <if test="cardNo != null and cardNo!=''">
+                and card_no = #{cardNo}
+            </if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+    <select id="countCardCancel" resultType="java.lang.Integer" parameterType="CardAllConditionMsg">
+        select count(1)
+        from (select * from card_cancel,worker where cancel_wid = wid) as t1 left join worker as t2 on
+        t1.audit_wid=t2.wid
+        <where>
+            <if test="fdate != null and fdate != ''">
+                and cancel_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and cancel_date &lt;= #{edate}
+            </if>
+            <if test="applyState != null and applyState !=0">
+                and apply_state = #{applyState}
+            </if>
+            <if test="cancelWid != null and cancelWid!=0">
+                and cancel_wid = #{cancelWid}
+            </if>
+            <if test="id != null and id!=0">
+                and ccancel_id = #{id}
+            </if>
+            <if test="cardNo != null and cardNo!=''">
+                and card_no = #{cardNo}
+            </if>
+        </where>
+    </select>
+    <!--插入销卡申请-->
+    <insert id="cardCancelInsertRrcord" parameterType="CardCancel" keyProperty="ccancelId" useGeneratedKeys="true">
+         insert into JX1907.card_cancel(card_no, cancel_wid, cancel_cause, cancel_date, audit_wid, audit_date, apply_state)
+        values (#{cardNo}, #{cancelWid}, #{cancelCause}, #{cancelDate}, #{auditWid}, #{auditDate}, #{applyState})
+    </insert>
+
+    <!--撤销卡注销申请通过主键删除-->
+    <delete id="cardCancelRemove" parameterType="CardCancel">
+        delete from JX1907.card_cancel where ccancel_id = #{ccancelId}
+    </delete>
+    <update id="cardOldUpdateAferChageByCardNo" parameterType="Card">
+            update JX1907.card set  card_state = #{cardState}
+            where card_no = #{cardNo}
+    </update>
+    <update id="updateCardCancelByID" parameterType="CardCancel">
+            update JX1907.card_cancel set audit_wid = #{auditWid},audit_date =#{auditDate}, apply_state = #{applyState}
+            where ccancel_id = #{ccancelId}
+    </update>
+
+    <select id="queryCardAllInfo" resultType="Card" parameterType="CardAllConditionMsg">
+        select
+        c1.card_id, c1.card_no, c1.pcardnumber, c1.issue_date, c1.issue_wid, c1.time_cost, c1.card_prefix,
+        c1.card_suffix, c1.apply_wid, c1.get_date, c1.balance, c1.card_state, c1.capply_id, w1.wname as applyWname,
+        w2.wname as issueWname,p1.pname as patientName , g1.gcname as companyName , cc1.cancel_cause cancelCause
+        from ((((card as c1
+        left join worker as w1 on c1.apply_wid = w1.wid)
+        left join worker as w2 on c1.issue_wid = w2.wid)
+        left join patient as p1 on c1.pcardnumber =p1.pcardnumber)
+        left join group_client as g1 on p1.gcid = g1.gcid)
+        left join card_cancel as cc1 on c1.card_no = cc1.card_no and cc1.apply_state != 2003
+        <where>
+            <if test="fdate != null and fdate != ''">
+                and get_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and get_date &lt;= #{edate}
+            </if>
+            <if test="cardState != null and cardState != 0 ">
+                and card_state = #{cardState}
+            </if>
+            <if test="applyWid != null and applyWid!=0">
+                and apply_wid = #{applyWid}
+            </if>
+            <if test="cardNo != null and cardNo!=''">
+                and c1.card_no = #{cardNo}
+            </if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+    <select id="countCardAllInfo" resultType="java.lang.Integer" parameterType="CardAllConditionMsg">
+        select count(1)
+        from ((((card as c1
+        left join worker as w1 on c1.apply_wid = w1.wid)
+        left join worker as w2 on c1.issue_wid = w2.wid)
+        left join patient as p1 on c1.pcardnumber =p1.pcardnumber)
+        left join group_client as g1 on p1.gcid = g1.gcid)
+        left join card_cancel as cc1 on c1.card_no = cc1.card_no and cc1.apply_state != 2003
+        <where>
+            <if test="fdate != null and fdate != ''">
+                and get_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and get_date &lt;= #{edate}
+            </if>
+            <if test="cardState != null and cardState != 0 ">
+                and card_state = #{cardState}
+            </if>
+            <if test="applyWid != null and applyWid!=0">
+                and apply_wid = #{applyWid}
+            </if>
+            <if test="cardNo != null and cardNo!=''">
+                and c1.card_no = #{cardNo}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryWorkload" resultType="CardWorkload" parameterType="CardAllConditionMsg">
+        select w1.wname, totalCard, issue_wid, changeNos, chage_wid
+        from worker as w1,
+        (select t1.totalCard, issue_wid, t2.changeNos, chage_wid
+        from (select count(1) as totalCard, issue_wid from card
+        <where>
+            <if test="fdate != null and fdate != ''">
+                and issue_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and issue_date &lt;= #{edate}
+            </if>
+        </where>
+        group by issue_wid having issue_wid is not null) as t1
+        left join (select count(1) as changeNos, chage_wid from card_change
+        <where>
+            <if test="fdate != null and fdate != ''">
+                and change_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and change_date &lt;= #{edate}
+            </if>
+        </where>
+        group by chage_wid) as t2
+        on t1.issue_wid = t2.chage_wid) as r1
+        <where>
+            w1.wid = r1.issue_wid
+            <if test="issueWid != null and issueWid != 0">
+                and r1.issue_wid = #{issueWid}
+            </if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="countWorkload" resultType="java.lang.Integer" parameterType="CardAllConditionMsg">
+        select count(1)
+        from worker as w1,
+        (select t1.totalCard, issue_wid, t2.changeNos, chage_wid
+        from (select count(1) as totalCard, issue_wid from card
+        <where>
+            <if test="fdate != null and fdate != ''">
+                and issue_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and issue_date &lt;= #{edate}
+            </if>
+        </where>
+        group by issue_wid having issue_wid is not null) as t1
+        left join (select count(1) as changeNos, chage_wid from card_change
+        <where>
+            <if test="fdate != null and fdate != ''">
+                and change_date &gt;= #{fdate}
+            </if>
+            <if test="edate != null and edate != ''">
+                and change_date &lt;= #{edate}
+            </if>
+        </where>
+        group by chage_wid) as t2
+        on t1.issue_wid = t2.chage_wid) as r1
+        <where>
+            w1.wid = r1.issue_wid
+            <if test="issueWid != null and issueWid != 0">
+                and r1.issue_wid = #{issueWid}
+            </if>
+        </where>
+    </select>
+
+</mapper>

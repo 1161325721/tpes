@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <mapper namespace="com.cy.tpes.mapper.yeymapper.YeWorkerMapper">
+<!--根据账号查询工作人员信息-->
+    <select id="selectWorker" parameterType="map" resultType="com.cy.tpes.entity.yeyentity.YeWorker">
+            select * from worker
+            where waccount = #{waccount}
+     </select>
+
+   <select id="selectGcAccount" parameterType="long" resultType="com.cy.tpes.entity.yeyentity.YeGroupClient">
+       select * from group_client where gcaccount = #{_parameter}
+   </select>
+
+   <select id="selectAllPackage" resultType="com.cy.tpes.entity.yeyentity.YePackage">
+       select * from package;
+   </select>
+
+    <select id="selectMenu" parameterType="map" resultType="com.cy.tpes.entity.yeyentity.YeMenu">
+       select D.mname firstname , F.mname secondname, F.mpath url from menu D ,menu F
+       where D.mid = F.mparentid and D.mid in (select C.mid from role_menu_relation C where C.rid in
+        (select B.rid from worker B where B.waccount = #{waccount}))
+    </select>
+
+
+
+<!--    查询套餐单价-->
+    <select id="selectPackageCharge" parameterType="map" resultType="double" >
+        select SUM(B.pcharge) from project B
+        where B.proid in (select C.proid from package_project_relation C
+        where packid in (select A.packid from package  A
+        where  A.packname = #{packageName}
+        ))
+    </select>
+
+<!--    查询套餐折扣-->
+    <select id="selectPackageDiscount" parameterType="string" resultType="long">
+        select packdiscount from package where packname = #{_parameter}
+    </select>
+
+    <select id="selectClientBalance" parameterType="long" resultType="long">
+        select gcbalance from group_client where gcaccount = #{_parameter}
+    </select>
+
+    <update id="updateGcBalance" parameterType="map">
+        update group_client set gcbalance = #{gcbalance} where gcaccount = #{gcaccount}
+    </update>
+
+    <insert id="insertGroupOrder" parameterType="com.cy.tpes.entity.yeyentity.YeGroupOrder" keyProperty="goid" useGeneratedKeys="true">
+        insert into group_order (gcid,goprepay,gorefundpay,
+        goreceivedpay,goinvoicingstate,wid,goappointdate,gostate
+        ) values
+         (#{gcid},#{goprepay},
+        #{gorefundpay},#{goreceivedpay},#{goinvoicingstate},
+       #{wid},#{goappointdate},#{gostate})
+    </insert>
+
+    <update id="updateGOInvoicing" parameterType="map" >
+      update group_order set goinvoicingnumber = #{num} where goid = #{goid}
+    </update>
+
+    <select id="selectGroupOrderIdLast" resultType="long" >
+        select goid from group_order ORDER BY goid desc limit 1;
+    </select>
+
+    <insert id="insertGroupOrderAndPackageRelation" parameterType="list" >
+        insert into order_package_relation (goid,packid,pidentitynumber) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.goid},#{item.packid},#{item.pidentitynumber})
+        </foreach>
+    </insert>
+
+    <select id="selectPatient" parameterType="long" resultType="com.cy.tpes.entity.yeyentity.YePatient">
+        select A.pid pid, A.pname pname, A.pcardnumber pcardnumber
+        ,A.pstate pstate,A.gcid gcid ,A.pidentitynumber pidentitynumber
+        ,A.packname packname,A.pgender pgender,A.pphone pphone
+         from patient A where  gcid = #{_parameter}
+    </select>
+
+    <select id="selectPatientByGcAccount" parameterType="long" resultType="com.cy.tpes.entity.yeyentity.YePatient">
+        select A.pid pid, A.pname pname, A.pcardnumber pcardnumber
+        ,A.pstate pstate,A.gcid gcid ,A.pidentitynumber pidentitynumber
+        ,A.packname packname,A.pgender pgender,A.pphone pphone
+         from patient A where  A.gcid = #{_parameter}
+    </select>
+
+    <select id="selectPatientOnState" parameterType="map" resultType="com.cy.tpes.entity.yeyentity.YePatient">
+        select A.pid pid, A.pname pname, A.pcardnumber pcardnumber
+        ,A.pstate pstate,A.gcid gcid ,A.pidentitynumber pidentitynumber
+        ,A.packname packname,A.pgender pgender,A.pphone pphone
+         from patient A where  A.gcid = #{gcid} and A.pstate = #{pstate}
+    </select>
+
+    <update id="updatePatientState" parameterType="map" >
+        update patient set pstate = #{pstate},set packname = #{packname} where gcid = #{gcid} and  pidentitynumber = #{identity}
+    </update>
+
+    <insert id="insertPatient" parameterType="list" >
+        insert into patient
+        (pname, pphone, gcid, pgender, pidentitynumber, pstate,packname, sign_date)
+        values
+        <foreach collection="list" item="patient" index="index"  separator="," >
+            (#{patient.pname},#{patient.pphone},#{patient.gcid},#{patient.pgender},#{patient.pidentitynumber},#{patient.pstate},#{patient.packname},null)
+        </foreach>
+    </insert>
+
+    <update id="updatePatientCardNumber" parameterType="map">
+        update patient set pcardnumber = #{pcardnumber}
+        where pid = #{pid}
+    </update>
+
+    <insert id="insertGuideCheck" keyProperty="gcid" useGeneratedKeys="true" parameterType="com.cy.tpes.entity.yeyentity.YeGuideCheck" >
+       insert into guide_check (pcardnumber, goid, packid,gcdate,gcstate)
+       values (#{pcardnumber},#{goid},#{packid},#{gcdate},#{gcstate})
+    </insert>
+
+    <insert id="insertGroupClient" parameterType="map" >
+        insert into group_client (gcname, gcaccount, gcpass, gcbalance, gcphone, gcstate, gcemail,gcregisterdate)
+        values (#{gcname},#{gcaccount},#{gcpass},#{gcbalance},#{gcphone},#{gcstate},#{gcemail},current_timestamp)
+    </insert>
+
+
+    <delete id="deletePatientByGdID" parameterType="long" >
+        delete from patient where gcid = #{_parameter}
+    </delete>
+
+    <select id="selectPatientForTable" parameterType="map" resultType="com.cy.tpes.entity.yeyentity.YePatient">
+        select A.*, B.gcname gcname ,B.gcaccount gcaccount from patient A  left join group_client B on A.gcid = B.gcid
+        <where>
+            <if test="name!=null">
+                and A.pname like #{name}
+            </if>
+            <if test="phone!=null">
+                and A.pphone = #{phone}
+            </if>
+            <if test="date!=null">
+                and TO_DAYS(A.sign_date) = TO_DAYS(#{date})
+            </if>
+            <if test="gcname!=null">
+                and A.gcid in (select gcid from group_client where gcname like #{gcname})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMaxFundID" resultType="long">
+        select max(ftid) from fund_transaction ;
+    </select>
+
+    <select id="selectCountPatientForTable" parameterType="map" resultType="long">
+        select count(*) from patient A  left join group_client B on A.gcid = B.gcid
+        <where>
+            <if test="name!=null">
+                and A.pname like #{name}
+            </if>
+            <if test="phone!=null">
+                and A.pphone = #{phone}
+            </if>
+            <if test="date!=null">
+                and TO_DAYS(A.sign_date) = TO_DAYS(#{date})
+            </if>
+            <if test="gcname!=null">
+                and A.gcid in (select gcid from group_client where gcname like #{gcname})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectNewestGroupOrder" parameterType="long" resultType="com.cy.tpes.entity.yeyentity.YePatient">
+        select C.pname , C.pphone ,C.pgender ,C.pidentitynumber,D.packname
+        from (select * from order_package_relation A where A.goid =
+        ( select max(goid)from group_order where gcid =
+        (select gcid from group_client where gcaccount = #{_parameter}))) B
+        left join patient C on B.pidentitynumber = C.pidentitynumber LEFT JOIN package D on B.packid = D.packid ;
+    </select>
+
+    <insert id="insertFundTransaction" parameterType="com.cy.tpes.entity.yeyentity.YeFundTransaction" keyProperty="ftid" useGeneratedKeys="true" >
+        insert into fund_transaction (fttype, ftamount, ftdate,gcaccount )
+        values (#{fttype},#{ftamount},current_timestamp,#{gcaccount})
+    </insert>
+
+    <select id="selectFundTransaction" parameterType="map" resultType="com.cy.tpes.entity.yeyentity.YeFundTransaction">
+        select A.*,B.gcname gcname from fund_transaction A left join group_client B on A.gcaccount = B.gcaccount
+        <where>
+            <if test="account!=0">
+                and A.gcaccount = #{account}
+            </if>
+            <if test="name!=null">
+                and B.gcname like #{name}
+            </if>
+            <if test="type!=null">
+                and A.fttype like #{type}
+            </if>
+            <if test="date!=null">
+                and TO_DAYS(A.ftdate) = TO_DAYS(#{date})
+            </if>
+        </where>
+    </select>
+    <select id="selectCountFund" parameterType="map" resultType="long">
+        select count(*) from fund_transaction A left join group_client B on A.gcaccount = B.gcaccount
+        <where>
+            <if test="account!=0">
+                and A.gcaccount = #{account}
+            </if>
+            <if test="name!=null">
+                and B.gcname like #{name}
+            </if>
+            <if test="type!=null">
+                and A.fttype like #{type}
+            </if>
+            <if test="date!=null">
+                and TO_DAYS(A.ftdate) = TO_DAYS(#{date})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectForReport" parameterType="map" resultType="com.cy.tpes.entity.yeyentity.YeCheckupReport">
+        select A.gcid gcid ,C.pname pname, D.packname packname, A.goid  goid, B.crsuggest crsuggest, B.crsummary crsummary,B.crlifeguide crlifeguide
+        from guide_check A
+        left join  checkup_report B on A.gcid = B.gcid
+        left join  patient C on A.pcardnumber =C.pcardnumber
+        left join package D on A.packid = D.packid
+        <where>
+            <if test="pname!=null">
+               and C.pname like #{pname}
+            </if>
+            <if test="goid!=0">
+                and A.goid  = #{goid}
+            </if>
+            <if test="packname!=null">
+                and D.packname like #{packname}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCountForReport" parameterType="map" resultType="long">
+        select count(*)
+        from guide_check A
+        left join  checkup_report B on A.gcid = B.gcid
+        left join  patient C on A.pcardnumber =C.pcardnumber
+        left join package D on A.packid = D.packid
+        <where>
+            <if test="pname!=null">
+                and C.pname like #{pname}
+            </if>
+            <if test="goid!=0">
+                and A.goid  = #{goid}
+            </if>
+            <if test="packname!=null">
+                and D.packname  like #{packname}
+            </if>
+        </where>
+
+    </select>
+
+    <update id="updateOrderOutOfDeal" parameterType="map">
+        update group_order C set C.gostate = '0'
+        , C.gorefundpay = #{gorefundpay}
+        , C.goreceivedpay = (C.goprepay-#{gorefundpay})
+        where goid = #{goid}
+    </update>
+
+<!--    <update id="updateOrderStateOutOfDeal" parameterType="map">-->
+<!--        update group_order C set C.gostate = '0'-->
+<!--        , C.gorefundpay = #{gorefundpay}-->
+<!--        , C.goreceivedpay = (C.goprepay-#{gorefundpay})-->
+<!--        where goid in-->
+<!--        (select B.goid from-->
+<!--            (SELECT  A.goid FROM group_order A-->
+<!--                where  A.gostate = '1' and DATE_SUB(CURDATE(), INTERVAL A.golasttime DAY)-->
+<!--                > date(A.goappointdate)) B-->
+<!--        )-->
+<!--    </update>-->
+
+    <select id="selectOrderOutOfDeal" resultType="com.cy.tpes.entity.yeyentity.YeGroupOrder">
+        SELECT  * FROM group_order A
+                where A.gostate = '1'  and DATE_SUB(CURDATE(), INTERVAL A.golasttime DAY)
+                > date(A.goappointdate)
+    </select>
+
+    <select id="selectGcByGoId" parameterType="long" resultType="com.cy.tpes.entity.yeyentity.YeGuideCheck">
+        select * from  guide_check where goid = #{_paramter}
+    </select>
+    
+    <select id="selectForDiscount" parameterType="long" resultType="long">
+        select packdiscount from package where packid = #{_parameter}
+    </select>
+    
+    <select id="selectGuideChargeNODeal" parameterType="long" resultType="double">
+        select  sum(D.pcharge) from checkup_project C
+        left join project D on D.proid =C.proid
+        where C.cpstate = 0 and C.crid in (select B.crid from checkup_report B
+        where B.gcid = #{_parameter})
+    </select>
+
+    <update id="updateClientBalanceDecrease" parameterType="map" >
+        update group_client A
+        set A.gcbalance = (A.gcbalance+ #{gcbalance})
+        where A.gcid = #{gcid}
+    </update>
+
+    <update id="updateGuideCheckState" parameterType="map" >
+        update guide_check set gcstate = #{gcstate} where gcid = #{gcid}
+    </update>
+
+
+    <update id="updateCheckupProject" parameterType="map">
+        update checkup_project  set cpstate = #{cpstate} where crid
+        in ( select crid from checkup_report where gcid = #{gcid})
+    </update>
+
+    <select id="selecOrderByGoid" parameterType="long" resultType="com.cy.tpes.entity.yeyentity.YeGroupOrder">
+        select * from group_order where goid = #{_parameter}
+    </select>
+
+    <select id="selectOrderByCondition" parameterType="map" resultType="com.cy.tpes.entity.yeyentity.YeGroupOrder">
+        select A.goid,B.gcname,B.gcaccount,A.goprepay,A.gorefundpay ,
+        A.goreceivedpay ,A.goordertime,A.goappointdate,A.golasttime,
+        C.wname ,A.gostate ,A.goinvoicingnumber ,A.goinvoicingstate
+        from group_order A
+        left join group_client B on A.gcid = B.gcid
+        left join worker C on C.wid = A.wid
+        <where>
+            <if test="gcname!=null">
+               and  B.gcname like #{gcname}
+            </if>
+            <if test="gcaccount!=0">
+                and B.gcaccount = #{gcaccount}
+            </if>
+            <if test="date!=null">
+                and TO_DAYS(A.goordertime) = TO_DAYS(#{date})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCountOrderByCondition" parameterType="map" resultType="long">
+        select count(*)
+        from group_order A left join group_client B
+        on A.gcid = B.gcid left join worker C on C.wid = A.wid
+        <where>
+            <if test="gcname!=null">
+                and  B.gcname like #{gcname}
+            </if>
+            <if test="gcaccount!=0">
+                and B.gcaccount = #{gcaccount}
+            </if>
+            <if test="date!=null">
+                and TO_DAYS(A.goordertime) = TO_DAYS(#{date})
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectOrderForOne" parameterType="map" resultType="com.cy.tpes.entity.yeyentity.YeGroupOrder">
+        select A.goid, C.waccount,B.gcname,B.gcaccount,A.goprepay,A.gorefundpay ,
+        A.goreceivedpay ,A.goordertime,A.goappointdate,A.golasttime,
+        C.wname ,A.gostate ,A.goinvoicingnumber ,A.goinvoicingstate
+        from group_order A
+        left join group_client B on A.gcid = B.gcid
+        left join worker C on C.wid = A.wid
+        where A.goid = #{goid}
+    </select>
+
+    <update id="editDay" parameterType="map" >
+        update group_order  set
+         golasttime = (golasttime+#{golasttime})
+        where gostate ='1' and goid = #{goid}
+    </update>
+
+</mapper>

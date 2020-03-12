@@ -1,0 +1,16 @@
+<i-panel title="余额信息">
+  <i-cell-group>
+    <i-cell wx:for="{{groupClient}}" title="余额：" value="{{item.gcbalance}}元"></i-cell>
+  </i-cell-group>
+  <i-button bind:click="handleClick" type="primary" size="small">充值</i-button>
+  <i-action-sheet visible="{{ visible2 }}" actions="{{ actions2 }}" show-cancel bind:cancel="handleCancel2" bind:click="handleClickItem2" mask-closable="{{ false }}">
+    <view slot="header" style="padding: 16px">
+      <view style="color: #444;font-size: 16px">确定购买吗？</view>
+      <text>请要输入充值数目</text>
+      <view style="padding: 16px">
+        <i-input value="{{ value2 }}" data-name="mymoney" type="number" title="金额" placeholder="请输入充值数目" bindchange="handleChange1" />
+        <i-input value="{{ value1 }}" type="password" title="密码" bindchange="handleChange2" placeholder="请输入账户密码" />
+      </view>
+    </view>
+  </i-action-sheet>
+</i-panel>

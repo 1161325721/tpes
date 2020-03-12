@@ -1,0 +1,15 @@
+<!-- pages/unit/unit.wxml -->
+<i-tab-bar current="{{ current }}" color="#f759ab" bindchange="handleChange" fixed="true">
+  <i-tab-bar-item key="combo" icon="homepage" current-icon="homepage_fill" title="首页"></i-tab-bar-item>
+  <i-tab-bar-item key="management" icon="remind" current-icon="remind_fill" title="订单"></i-tab-bar-item>
+  <i-tab-bar-item key="unit" icon="mine" current-icon="mine_fill" title="单位查询"></i-tab-bar-item>
+</i-tab-bar>
+<!-- wx:for="{{mylist}}" wx:key="*this" wx:for-item="child" -->
+<i-cell-group >
+  <i-cell wx:for="{{groupClient}}" title="单位名字：{{item.gcname}}"
+   label="账号为：{{item.gcaccount}}" is-link url="/pages/unitinfo/unitinfo"></i-cell>
+   <i-cell title="修改密码" is-link url="/pages/updatepwd/updatepwd"></i-cell>
+  <i-cell title="查看账户余额" is-link url="/pages/money/money"></i-cell>
+  <i-cell title="问题解惑" is-link url="/pages/problem/problem"></i-cell>
+  <i-cell title="联系客服" is-link url="/pages/customer/customer"></i-cell>
+</i-cell-group>

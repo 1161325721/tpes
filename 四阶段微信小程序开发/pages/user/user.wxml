@@ -1,0 +1,27 @@
+<mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+<i-panel title="查询个人信息" >
+<view class="page">
+    <view class="page__hd"></view>
+    <view class="page__bd">
+        <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+            <mp-cells>
+            <mp-cell prop="unit" title="单位名:" ext-class="">
+                    <input bindinput="formInputChange" data-field="unit" name="unit" 
+                    class="weui-input" placeholder="请输入单位名" />
+                </mp-cell>
+                <mp-cell prop="myname" title="姓名:" ext-class="">
+                    <input bindinput="formInputChange" data-field="myname" name="myname" 
+                    class="weui-input" placeholder="请输入姓名" />
+                </mp-cell>
+                <mp-cell prop="idcard" title="身份证:" ext-class="">
+                    <input bindinput="formInputChange"  data-field="idcard" name="idcard"
+                    type="idcard" class="weui-input" placeholder="请再次输入身份证" />
+                </mp-cell>
+            </mp-cells>
+        </mp-form>
+        <view class="weui-btn-area">
+            <button class="weui-btn" type="primary" bindtap="submitForm">查询</button>
+        </view>
+    </view>
+</view>
+</i-panel>

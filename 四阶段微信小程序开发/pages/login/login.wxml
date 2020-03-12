@@ -1,0 +1,42 @@
+ <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+
+    <view class="page">
+    <view class="page__hd">
+        <swiper indicator-dots="true" indicator-color="#0094ff" autoplay="true" interval="5000" duration="1000" circular="true">
+            <swiper-item>
+                <image mode="scaleToFill" src="/image/swiper_1.jpg" />
+            </swiper-item>
+            <swiper-item>
+                <image mode="scaleToFill" src="/image/swiper_2.jpg" />
+            </swiper-item>
+            <swiper-item>
+                <image mode="scaleToFill" src="/image/swiper_3.jpg" />
+            </swiper-item>
+        </swiper>
+    </view>
+    <view class="page__bd">
+        <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+            <mp-cells title="团检单位登录入口">
+                <mp-cell prop="account" title="账号" ext-class="">
+                    <input bindinput="formInputChange" data-field="account" name="account" class="weui-input" placeholder="请输入账号" />
+                </mp-cell>
+                <mp-cell prop="pwd" title="密码" ext-class="">
+                    <input bindinput="formInputChange" password="{{true}}" data-field="pwd"name="pwd" class="weui-input" placeholder="请输入密码" />
+                </mp-cell>
+                <mp-cell prop="vcode" title="验证码" ext-class="">
+                    <input type="text" id="code" name="vcode" bindinput='formInputChange' data-field="vcode" placeholder="请输入以下图形验证码" maxlength="4" value='{{imgCode}}' />
+                    <view class='yanzhengma'>
+                        <text class='left' bindtap='huanyizhang'>{{code}}</text>
+                    </view>
+                </mp-cell>
+            </mp-cells>
+        </mp-form>
+        <navigator  target="self" url="../reg/reg"  hover-class="navigator-hover"    open-type="navigate">
+            没有账号，点击此处进行注册
+        </navigator>
+        <view class="weui-btn-area">
+            <button class="weui-btn" type="primary" bindtap="submitForm">登录</button>
+        </view>
+    </view>
+</view>
+  

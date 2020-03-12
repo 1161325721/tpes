@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cy.tpes.mapper.hjx.WxPackageMapper">
+    <select id="findcombo" resultType="com.cy.tpes.entity.hjx.Package" parameterType="java.util.Map">
+        select *
+        from package
+        <where>
+            <if test="packname!=null and  packname!=''">
+                and packname like concat('%', #{packname}, '%')
+            </if>
+            <if test="packid!=null and  packid!=''">
+                and packid =#{packid}
+            </if>
+        </where>
+    </select>
+</mapper>

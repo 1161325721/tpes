@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cy.tpes.mapper.harmon.SpiderNewMapper">
+
+    <update id="truncateTable">
+        truncate table  JX1907.spider_new
+
+    </update>
+
+    <insert id="insertNew" parameterType="SpiderNew">
+        insert into JX1907.spider_new(new_titel, new_url,new_status) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.newTitel}, #{item.newUrl},#{item.newStatus})
+        </foreach>
+    </insert>
+
+    <update id="updateNew" parameterType="SpiderNew">
+        update JX1907.spider_new
+        <set>
+            <if test="newTitel != null and newTitel != ''">
+                new_titel = #{newTitel},
+            </if>
+            <if test="newUrl != null and newUrl != ''">
+                new_url = #{newUrl},
+            </if>
+            <if test="newStatus != null and newStatus !=0 ">
+                new_status = #{newStatus},
+            </if>
+        </set>
+        where new_id = #{newId}
+    </update>
+
+    <!--查询指定行数据-->
+    <select id="findAllNew" resultType="SpiderNew" parameterType="CardAllConditionMsg">
+        select
+        new_id, new_titel, new_url,new_status
+        from JX1907.spider_new
+        <where>
+            <if test="id != null and id!=0">
+                and new_id = #{id}
+            </if>
+            <if test="newStatus != null and newStatus !=0 ">
+                and new_status = #{newStatus}
+            </if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+    <select id="countAllNew" resultType="java.lang.Integer" parameterType="CardAllConditionMsg">
+        select
+        count(1)
+        from JX1907.spider_new
+        <where>
+            <if test="id != null and id!=0">
+                and new_id = #{id}
+            </if>
+            <if test="newStatus != null and newStatus !=0 ">
+                and new_status = #{newStatus}
+            </if>
+        </where>
+    </select>
+
+</mapper>

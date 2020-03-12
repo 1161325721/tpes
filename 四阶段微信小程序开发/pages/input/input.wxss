@@ -1,0 +1,4 @@
+/* pages/input/input.wxss */
+page{
+    background-color:honeydew;
+}

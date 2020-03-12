@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.tpes.mapper.hjx.WxGroupOrderMapper">
+    <insert id="insertOrder" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="goid">
+        insert into group_order(gcid, goprepay,
+                                goordertime, goappointdate)
+        values (#{gcid},
+                #{goprepay},
+                #{goordertime},
+                #{goappointdate})
+    </insert>
+
+    <insert id="insertOrderRelation" parameterType="java.util.Map">
+        insert into order_package_relation (goid, packid, pidentitynumber)
+        values (#{goid}, #{packid}, #{pidentitynumber})
+    </insert>
+
+    <select id="findbyGcid" resultMap="GroupOrder" parameterType="java.util.Map">
+        select A.*,C.*
+        from group_order A,order_package_relation B,package C
+        where  A.goid=B.goid
+          AND B.packid=C.packid
+        <if test="gcid!=null and  gcid!=''">
+        and gcid=#{gcid}
+           </if>
+        <if test="gostate!=null and  gostate!=''">
+            and gostate=#{gostate}
+        </if>
+    </select>
+    <resultMap id="GroupOrder" type="com.cy.tpes.entity.hjx.GroupOrder">
+        <id column="goid" property="goid"/>
+        <id column="gcid" property="gcid"/>
+        <result column="goprepay" property="goprepay"/>
+        <result column="gorefundpay" property="gorefundpay"/>
+        <result column="goreceivedpay" property="goreceivedpay"/>
+        <result column="goinvoicingstate" property="goinvoicingstate"/>
+        <result column="goinvoicingnumber" property="goinvoicingnumber"/>
+        <result column="goordertime" property="goordertime"/>
+        <result column="wid" property="wid"/>
+        <result column="goappointdate" property="goappointdate"/>
+        <result column="golasttime" property="golasttime"/>
+        <result column="gostate" property="gostate"/>
+        <association property="aPackage" javaType="com.cy.tpes.entity.hjx.Package">
+            <id column="packid" property="packid"/>
+            <result column="packname" property="packname"/>
+            <result column="packintroduction" property="packintroduction"/>
+            <result column="packdiscount" property="packdiscount"/>
+            <result column="imageurl" property="imageurl"/>
+        </association>
+
+    </resultMap>
+
+    <select id="ordercount" resultType="Integer"  parameterType="java.util.Map">
+        select count(*) mycount from  order_package_relation
+      <where>
+          <if test="goid!=null and goid!='' ">
+            and goid=#{goid};
+          </if>
+      </where>
+    </select>
+
+    <select id="reportcount" resultType="Integer" parameterType="java.util.Map">
+        select count(*) mycount from
+        guide_check A,checkup_report B
+        where A.gcid=B.gcid
+          and A.goid=#{goid};   
+</select>
+
+    <update id="updateorder" parameterType="java.util.Map">
+        update group_order
+        <set>
+            <if test="gostate!=null">
+                gostate=#{gostate},
+            </if>
+            <if test="gorefundpay!=null">
+                gorefundpay=#{gorefundpay},
+            </if>
+            <if test="goreceivedpay!=null">
+                goreceivedpay=#{goreceivedpay},
+            </if>
+        </set>
+        WHERE goid=#{goid};
+    </update>
+
+
+
+</mapper>
