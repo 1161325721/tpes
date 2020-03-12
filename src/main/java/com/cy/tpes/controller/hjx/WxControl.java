@@ -32,7 +32,6 @@ public class WxControl {
 
     /**
      * 团检单位登录业务
-     *
      * @param account
      * @param pwd
      * @param request
