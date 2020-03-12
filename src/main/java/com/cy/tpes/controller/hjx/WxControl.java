@@ -31,7 +31,7 @@ public class WxControl {
     private WxServise wxServise;
 
     /**
-     * t团检单位登录业务
+     * 团检单位登录业务
      *
      * @param account
      * @param pwd
